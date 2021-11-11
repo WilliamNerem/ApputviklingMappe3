@@ -40,7 +40,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
         LatLng pilestredet = new LatLng(59.91957, 10.73556);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pilestredet));
-        mMap.setInfoWindowAdapter(new MyInfoWindowAdapter(this));
+        mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(pilestredet).title("Pilestredet testhus")
                 .snippet("Dette er en snippet\n Her kan informasjon være");
@@ -85,14 +85,11 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
         private final View contents;
 
-        MyInfoWindowAdapter(Context context) {
-            LayoutInflater inflater = LayoutInflater.from(context);
+        MyInfoWindowAdapter() {
             contents = getLayoutInflater().inflate(R.layout.infowindow, null);
         }
         @Override
         public View getInfoWindow(Marker marker) {
-            //Only changing the content for this tutorial
-            //if you return null, it will just use the default window
             return null;
         }
         @Override
@@ -100,7 +97,6 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
             String title = marker.getTitle();
             TextView txtTitle = ((TextView) contents.findViewById(R.id.title));
             if (title != null) {
-                // Spannable string allows us to edit the formatting of the text.
                 SpannableString titleText = new SpannableString(title);
                 titleText.setSpan(new ForegroundColorSpan(Color.BLACK), 0, titleText.length(), 0);
                 txtTitle.setText(titleText);
