@@ -5,9 +5,12 @@
       <map>
         <entry key="..\:/Users/Martin/Desktop/Skole/Apputvikling/ApputviklingMappe3/app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/Martin/Desktop/Skole/Apputvikling/ApputviklingMappe3/app/src/main/res/layout/maps.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/William Nerem/Desktop/Skole/Apputvikling/ApputviklingMappe3/app/src/main/res/drawable/delete_rounded_corners.xml" value="0.3828125" />
+        <entry key="..\:/Users/William Nerem/Desktop/Skole/Apputvikling/ApputviklingMappe3/app/src/main/res/drawable/edit_rounded_corners.xml" value="0.3828125" />
         <entry key="..\:/Users/William Nerem/Desktop/Skole/Apputvikling/ApputviklingMappe3/app/src/main/res/layout/activity_main.xml" value="0.276268115942029" />
         <entry key="..\:/Users/William Nerem/Desktop/Skole/Apputvikling/ApputviklingMappe3/app/src/main/res/layout/alert_edit_hus.xml" value="0.276268115942029" />
         <entry key="..\:/Users/William Nerem/Desktop/Skole/Apputvikling/ApputviklingMappe3/app/src/main/res/layout/hus_list.xml" value="0.276268115942029" />
+        <entry key="..\:/Users/William Nerem/Desktop/Skole/Apputvikling/ApputviklingMappe3/app/src/main/res/layout/list_item_hus.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

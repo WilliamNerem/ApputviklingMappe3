@@ -48,22 +48,23 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
 
         TextView tvId = (TextView) convertView.findViewById(R.id.itemHus);
         TextView tvBeskrivelse = (TextView) convertView.findViewById(R.id.itemHusBeskrivelse);
-        TextView tvGateaddresse = (TextView) convertView.findViewById(R.id.itemHusGateaddresse);
+        TextView tvGateadresse = (TextView) convertView.findViewById(R.id.itemHusGateadresse);
         TextView tvGpsKoordinater = (TextView) convertView.findViewById(R.id.itemHusGpsKoordinater);
         TextView tvEtasjer = (TextView) convertView.findViewById(R.id.itemHusEtasjer);
 
         String strId = String.valueOf(id);
         tvId.setText(strId);
         tvBeskrivelse.setText(beskrivelse);
-        tvGateaddresse.setText(gateadresse);
+        tvGateadresse.setText(gateadresse);
         tvGpsKoordinater.setText(gpsKoordinater);
-        tvEtasjer.setText(etasjer);
+        String strEtasjer = String.valueOf(etasjer);
+        tvEtasjer.setText(strEtasjer);
 
 
         buttonEditHus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog created = buildAlertDialog(currentView, id, tvBeskrivelse, tvGateaddresse, tvGpsKoordinater, tvEtasjer);
+                AlertDialog created = buildAlertDialog(currentView, id, tvBeskrivelse, tvGateadresse, tvGpsKoordinater, tvEtasjer);
                 created.show();
             }
         });
@@ -72,9 +73,9 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
             @Override
             public void onClick(View view) {
                 db = new DBHandler(mContext);
-                db.deleteRestaurant(id);
+                db.deleteHus(id);
                 listHus.clear();
-                listHus.addAll(db.findAllRestauranter());
+                listHus.addAll(db.findAllHus());
                 notifyDataSetChanged();
             }
         });
@@ -119,12 +120,12 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
 
                 if (validation(editBeskrivelse, editGateadresse, editGpsKoordinater, editEtasjer, alertConvertView.getContext())){
                     db = new DBHandler(alertConvertView.getContext());
-                    Hus etHus = db.findRestaurant(id);
+                    Hus etHus = db.findHus(id);
                     etHus.setBeskrivelse(editBeskrivelse.getText().toString());
                     etHus.setGateadresse(editGateadresse.getText().toString());
                     etHus.setGpsKoordinater(editGpsKoordinater.getText().toString());
                     etHus.setEtasjer(Integer.parseInt(editEtasjer.getText().toString()));
-                    db.updateRestaurant(etHus);
+                    db.updateHus(etHus);
                     ContentValues resValues = new ContentValues();
                     resValues.clear();
                     resValues.put("id", id);
@@ -133,7 +134,7 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
                     resValues.put("phone", etHus.gpsKoordinater);
                     resValues.put("type", etHus.etasjer);
                     listHus.clear();
-                    listHus.addAll(db.findAllRestauranter());
+                    listHus.addAll(db.findAllHus());
                     notifyDataSetChanged();
                 }
             }

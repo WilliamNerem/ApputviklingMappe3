@@ -41,7 +41,7 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_food_bank_24" />
+                app:srcCompat="@drawable/ic_baseline_description_24" />
 
             <EditText
                 android:id="@+id/beskrivelse"
@@ -78,10 +78,10 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_location_on_24" />
+                app:srcCompat="@drawable/ic_baseline_home_24" />
 
             <EditText
-                android:id="@+id/address"
+                android:id="@+id/gateadresse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -115,7 +115,7 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_phone_24" />
+                app:srcCompat="@drawable/ic_baseline_location_on_24" />
 
             <EditText
                 android:id="@+id/gpsKoordinater"
@@ -151,7 +151,7 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_restaurant_24" />
+                app:srcCompat="@drawable/ic_baseline_height_24" />
 
             <EditText
                 android:id="@+id/etasjer"

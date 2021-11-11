@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ApputviklingMappe3</string>
+    <string name="titleEditHus">Endre hus</string>
+    <string name="hintBeskrivelse">Skriv beskrivelse</string>
+    <string name="hintGateadresse">Skriv inn gateadresse</string>
+    <string name="hintGpsKoordinater">Skriv inn gps-koordinater</string>
+    <string name="hintEtasjer">Skriv inn antall etasjer</string>
 </resources>
