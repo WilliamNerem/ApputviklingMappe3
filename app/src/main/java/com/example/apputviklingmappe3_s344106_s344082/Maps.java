@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,7 +23,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class Maps extends FragmentActivity implements OnMapReadyCallback {
-    private GoogleMap mMap;
+    GoogleMap mMap;
     private ImageView mInfo;
     private Marker mMarker;
 
@@ -40,18 +41,38 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
         LatLng pilestredet = new LatLng(59.91957, 10.73556);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pilestredet));
-        mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(pilestredet).title("Pilestredet testhus")
-                .snippet("Dette er en snippet\n Her kan informasjon være");
-        Marker marker = googleMap.addMarker(markerOptions);
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
-        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        //MarkerOptions markerOptions = new MarkerOptions()
+                //.position(pilestredet).title("Pilestredet testhus")
+                //.snippet("Dette er en snippet\n Her kan informasjon være");
+        //Marker marker = mMap.addMarker(markerOptions);
+        Hus ethus = new Hus("Dette er en god beskrivelse", "Nisseveien 19A, 01940 Oslo","59.91957","10.73556",3);
+        Hus tohus = new Hus("Dette er en enda mye bedre beskrivelse enn den gode beskrivelse", "Trynedittveien 19A, 01940 Oslo","59.91937","10.73596",3);
+        //LatLng noeAnnet = new LatLng(Double.parseDouble(tohus.getGps_lat()), Double.parseDouble(tohus.getGps_long()));
+        //LatLng pilestredet2 = new LatLng(59.91937, 10.73596);
+        //MarkerOptions markerOptions2 = new MarkerOptions().position(pilestredet2);
+        //Marker marker2 = mMap.addMarker(markerOptions2);
+        addMarker(ethus);
+        addMarker(tohus);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public void onMapClick(LatLng arg0) {
-                marker.showInfoWindow();
+            public boolean onMarkerClick(@NonNull Marker marker) {
+                if (marker.isInfoWindowShown()) {
+                    marker.hideInfoWindow();
+                    return false;
+                } else {
+                    marker.showInfoWindow();
+                    return true;
+                }
             }
         });
+    }
+
+    private void addMarker(Hus hus) {
+        LatLng location = new LatLng(Double.parseDouble(hus.getGps_lat()), Double.parseDouble(hus.getGps_long()));
+        MarkerOptions markerOp = new MarkerOptions().position(location);
+        Marker mark = mMap.addMarker(markerOp);
+        mMap.setInfoWindowAdapter(new MyInfoWindowAdapter(hus));
     }
 
     private void init() {
@@ -84,8 +105,10 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         private final View contents;
+        private Hus hus;
 
-        MyInfoWindowAdapter() {
+        MyInfoWindowAdapter(Hus hus) {
+            this.hus = hus;
             contents = getLayoutInflater().inflate(R.layout.infowindow, null);
         }
         @Override
@@ -94,7 +117,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         }
         @Override
         public View getInfoContents(Marker marker) {
-            String title = marker.getTitle();
+            String title = hus.gateadresse;
             TextView txtTitle = ((TextView) contents.findViewById(R.id.title));
             if (title != null) {
                 SpannableString titleText = new SpannableString(title);
@@ -103,8 +126,8 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
             } else {
                 txtTitle.setText("");
             }
-            TextView txtType = ((TextView) contents.findViewById(R.id.snippet));
-            txtType.setText("La oss håpe dette funker\nFor dette funker fortsatt?\nDET ER JO ET HUS!!\nSa brura\nI gangen hehe");
+            TextView txtsnippet = ((TextView) contents.findViewById(R.id.snippet));
+            txtsnippet.setText("Beskrivelse:"+hus.getBeskrivelse()+"\nKoordinater:"+hus.getGps_lat()+", "+hus.getGps_long()+"\nEtasjer:"+hus.getEtasjer());
             return contents;
 
         }

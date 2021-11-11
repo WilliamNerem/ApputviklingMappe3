@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class DBHandler extends SQLiteOpenHelper {
-    static int DATABASE_VERSION = 1;
+    static int DATABASE_VERSION = 2;
     static String DATABASE_NAME = "studdb5";
     static String TABLE_HUS = "Hus";
     static String HUS_KEY_ID = "id";
@@ -55,7 +55,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
         values.put(HUS_KEY_BESKRIVELSE, hus.getBeskrivelse());
         values.put(HUS_KEY_GATEADRESSE, hus.getGateadresse());
-        values.put(gps, hus.getGpsKoordinater());
+        values.put(HUS_KEY_GPSLAT, hus.getGps_lat());
+        values.put(HUS_KEY_GPSLONG, hus.getGps_long());
         values.put(HUS_KEY_ETASJER, hus.getEtasjer());
         db.insert(TABLE_HUS, null, values);
         db.close();
@@ -87,8 +88,8 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(HUS_KEY_BESKRIVELSE, hus.getBeskrivelse());
         values.put(HUS_KEY_GATEADRESSE, hus.getGateadresse());
-        String gps = HUS_KEY_GPSLAT + ", " + HUS_KEY_GPSLONG;
-        values.put(gps, hus.getGpsKoordinater());
+        values.put(HUS_KEY_GPSLAT, hus.getGps_lat());
+        values.put(HUS_KEY_GPSLONG, hus.getGps_long());
         values.put(HUS_KEY_ETASJER, hus.getEtasjer());
         db.update(TABLE_HUS, values, HUS_KEY_ID + "= ?",
                 new String[]{String.valueOf(hus.get_ID())});
@@ -101,11 +102,10 @@ public class DBHandler extends SQLiteOpenHelper {
                         HUS_KEY_ID, HUS_KEY_BESKRIVELSE, HUS_KEY_GATEADRESSE, HUS_KEY_GPSLAT, HUS_KEY_GPSLONG, HUS_KEY_ETASJER}, HUS_KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null) cursor.moveToFirst();
-        String gps = cursor.getString(3) + ", " + cursor.getString(4);
         Hus hus = new
                 Hus(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2),
-                gps, cursor.getInt(5));
+                cursor.getString(1), cursor.getString(2),cursor.getString(3),
+                cursor.getString(4), cursor.getInt(5));
         cursor.close();
         db.close();
         return hus;
@@ -153,8 +153,8 @@ public class DBHandler extends SQLiteOpenHelper {
                             hus.set_ID(Integer.parseInt(id));
                             hus.setBeskrivelse(beskrivelse);
                             hus.setGateadresse(gateadresse);
-                            String gps = gps_lat + ", " + gps_long;
-                            hus.setGpsKoordinater(gps);
+                            hus.setGps_lat(gps_lat);
+                            hus.setGps_long(gps_long);
                             hus.setEtasjer(Integer.parseInt(etasjer));
                             retur.add(hus);
                         }

@@ -32,7 +32,13 @@
             android:gravity="center" />
 
         <TextView
-            android:id="@+id/itemHusGpsKoordinater"
+            android:id="@+id/itemHusGpsLat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/itemHusGpsLong"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center" />
