@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -40,16 +41,30 @@ public class LeggTil extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Hus hus = new Hus();
-                hus.setBeskrivelse(editBeskrivelse.getText().toString());
-                hus.setGateadresse(editGateadresse.getText().toString());
-                hus.setGps_lat(editGpsLat.getText().toString());
-                hus.setGps_long(editGpsLong.getText().toString());
-                hus.setEtasjer(Integer.parseInt(editEtasjer.getText().toString()));
-                db.addHus(hus);
-                startActivity(new Intent(LeggTil.this, HusList.class));
+                if (validation()){
+                    Hus hus = new Hus();
+                    hus.setBeskrivelse(editBeskrivelse.getText().toString());
+                    hus.setGateadresse(editGateadresse.getText().toString());
+                    hus.setGps_lat(editGpsLat.getText().toString());
+                    hus.setGps_long(editGpsLong.getText().toString());
+                    hus.setEtasjer(Integer.parseInt(editEtasjer.getText().toString()));
+                    db.addHus(hus);
+                    startActivity(new Intent(LeggTil.this, HusList.class));
+                }
             }
         });
+    }
+
+    private boolean validation(){
+        String strBeskrivelse = editBeskrivelse.getText().toString();
+        String strGateaddresse = editGateadresse.getText().toString();
+        String strEtasjer = editEtasjer.getText().toString();
+
+        if (strBeskrivelse.equals("") || strGateaddresse.equals("") || strEtasjer.equals("")){
+            Toast.makeText(getBaseContext(),"Alle felt må fylles ut", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
 }
