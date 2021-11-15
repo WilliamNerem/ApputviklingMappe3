@@ -1,6 +1,7 @@
 package com.example.apputviklingmappe3_s344106_s344082;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Layout;
@@ -29,6 +30,7 @@ import java.util.List;
 public class Maps extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap mMap;
     DBHandler db;
+    private ImageView btnLeggTil;
     static public ArrayList<Marker> markers;
     static public List<Hus> alleHus;
 
@@ -40,8 +42,19 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
         db = new DBHandler(this);
         alleHus = db.findAllHus();
+        btnLeggTil = (ImageView) findViewById(R.id.list);
         System.out.println();
         markers = new ArrayList<>();
+        buttons();
+    }
+
+    private void buttons(){
+        btnLeggTil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Maps.this, HusList.class));
+            }
+        });
     }
 
     @Override

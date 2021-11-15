@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class LeggTil extends AppCompatActivity {
     private DBHandler db;
+    private ImageView btnMaps;
     private Button btn;
     private EditText editBeskrivelse;
     private EditText editGateadresse;
@@ -27,6 +29,7 @@ public class LeggTil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.legg_til);
         db = new DBHandler(this);
+        btnMaps = (ImageView) findViewById(R.id.maps);
         btn = (Button) findViewById(R.id.btnLeggTil);
         editBeskrivelse = findViewById(R.id.beskrivelse);
         editGateadresse = findViewById(R.id.gateadresse);
@@ -38,6 +41,13 @@ public class LeggTil extends AppCompatActivity {
     }
 
     private void button(){
+        btnMaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LeggTil.this, Maps.class));
+            }
+        });
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
