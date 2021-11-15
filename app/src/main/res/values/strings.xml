@@ -7,6 +7,19 @@
     <string name="hintGateadresse">Skriv inn gateadresse</string>
     <string name="hintLatitude">Skriv inn latitude</string>
     <string name="hintLongitude">Skriv inn longitude</string>
-    <string name="hintEtasjer">Skriv inn antall etasjer</string>
+    <string name="hintEtasjer">Velg antall etasjer</string>
     <string name="btnLeggTil">Legg til</string>
+    <string-array name="etasjer">
+        <item>Velg antall Etasjer</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
 </resources>
