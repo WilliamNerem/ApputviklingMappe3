@@ -24,12 +24,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Maps extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap mMap;
-    private ImageView mInfo;
+    DBHandler db;
     static public ArrayList<Marker> markers;
-    static public ArrayList<Hus> alleHus;
+    static public List<Hus> alleHus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +38,20 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         setContentView(R.layout.maps);
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        mInfo = (ImageView) findViewById(R.id.image_info);
-        alleHus = new ArrayList<>();
+        db = new DBHandler(this);
+        alleHus = db.findAllHus();
+        System.out.println();
         markers = new ArrayList<>();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng pilestredet = new LatLng(59.91957, 10.73556);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(pilestredet));
-        Hus ethus = new Hus("Dette er en god beskrivelse", "Nisseveien 19A, 01940 Oslo","59.91957","10.73556",3);
-        Hus tohus = new Hus("Dette er en enda mye bedre beskrivelse enn den gode beskrivelse", "Trynedittveien 19A, 01940 Oslo","59.91937","10.73596",3);
-        addMarker(ethus);
-        addMarker(tohus);
+        for (Hus hus : alleHus) {
+            System.out.println(hus);
+            addMarker(hus);
+        }
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(59.91957,10.73556))); // Viser Pilestredet
         mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -71,7 +72,6 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         LatLng location = new LatLng(Double.parseDouble(hus.getGps_lat()), Double.parseDouble(hus.getGps_long()));
         MarkerOptions markerOp = new MarkerOptions().position(location).title(hus.gateadresse).snippet("Beskrivelse:"+hus.getBeskrivelse()+"\nKoordinater:"+hus.getGps_lat()+", "+hus.getGps_long()+"\nEtasjer:"+hus.getEtasjer());
         Marker marker =  mMap.addMarker(markerOp);
-        alleHus.add(hus);
         markers.add(marker);
     }
 
