@@ -3,6 +3,8 @@ package com.example.apputviklingmappe3_s344106_s344082;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class LeggTil extends AppCompatActivity {
     private DBHandler db;
@@ -29,6 +35,9 @@ public class LeggTil extends AppCompatActivity {
     private EditText editGpsLat;
     private EditText editGpsLong;
     private Spinner spinnerEtasjer;
+    public List<Address> adresses;
+    Geocoder geocoder;
+    LatLng cords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +51,14 @@ public class LeggTil extends AppCompatActivity {
         editGpsLat = findViewById(R.id.gpsLat);
         editGpsLong = findViewById(R.id.gpsLong);
         spinnerEtasjer = findViewById(R.id.etasjer);
+        geocoder = new Geocoder(this, Locale.getDefault());
+        cords = getIntent().getExtras().getParcelable("lat,long");
+        try {
+            adresses = geocoder.getFromLocation(cords.latitude,cords.longitude,1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        editGateadresse.setText(adresses.get(0).getAddressLine(0));
         button();
         setSpinner();
     }
@@ -61,8 +78,8 @@ public class LeggTil extends AppCompatActivity {
                     Hus hus = new Hus();
                     hus.setBeskrivelse(editBeskrivelse.getText().toString());
                     hus.setGateadresse(editGateadresse.getText().toString());
-                    hus.setGps_lat(editGpsLat.getText().toString());
-                    hus.setGps_long(editGpsLong.getText().toString());
+                hus.setGps_lat(Double.toString(cords.latitude));
+                hus.setGps_long(Double.toString(cords.longitude));
                     hus.setEtasjer(Integer.parseInt(spinnerEtasjer.getSelectedItem().toString()));
                     db.addHus(hus);
                     startActivity(new Intent(LeggTil.this, HusList.class));

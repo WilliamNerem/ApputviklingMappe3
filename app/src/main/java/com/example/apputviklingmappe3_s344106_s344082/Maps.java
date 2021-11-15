@@ -3,6 +3,8 @@ package com.example.apputviklingmappe3_s344106_s344082;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.text.Layout;
 import android.text.SpannableString;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -24,8 +27,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Maps extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap mMap;
@@ -33,6 +38,11 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     private ImageView btnLeggTil;
     static public ArrayList<Marker> markers;
     static public List<Hus> alleHus;
+    public List<Address> adresses;
+    LatLng newMark;
+    Geocoder geocoder;
+    boolean alreadyMark;
+    Marker markAdded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +77,17 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(59.91957,10.73556))); // Viser Pilestredet
         mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                if (marker.getTitle().equals("Trykk her for å legge til hus")) {
+                    Intent i = new Intent(Maps.this, LeggTil.class);
+                    System.out.println(marker.getPosition());
+                    i.putExtra("lat,long", marker.getPosition());
+                    startActivity(i);
+                }
+            }
+        });
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(@NonNull Marker marker) {
@@ -79,6 +100,38 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                 }
             }
         });
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if(alreadyMark) {
+                    markAdded.remove();
+                    alreadyMark = false;
+                }
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+
+                newMark = new LatLng(latLng.latitude, latLng.longitude);
+                geocoder = new Geocoder(Maps.this, Locale.getDefault());
+                try {
+                    adresses = geocoder.getFromLocation(newMark.latitude, newMark.longitude, 1);
+                } catch (IOException e) {
+                    Toast.makeText(Maps.this, "Ikke en gyldig adresse!", Toast.LENGTH_SHORT).show();
+
+                }
+                if (adresses == null) {
+                    Toast.makeText(Maps.this, "Ikke en gyldig adresse!", Toast.LENGTH_LONG);
+                } else {
+                    markerOptions.title("Trykk her for å legge til hus");
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                    markAdded = mMap.addMarker(markerOptions);
+                    markers.add(markAdded);
+                    alreadyMark = true;
+                }
+            }
+
+        });
+
     }
 
     private void addMarker(Hus hus) {
