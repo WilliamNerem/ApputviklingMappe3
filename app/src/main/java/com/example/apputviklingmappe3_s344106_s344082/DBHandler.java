@@ -14,8 +14,10 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -64,36 +66,40 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public List<Hus> findAllHus() {
         getJSON task = new getJSON();
+        String[] params = {"http://studdata.cs.oslomet.no/~dbuser5/www/jsonout.php", "GET"};
         try {
-            return task.execute(new
-                    String[]{"http://studdata.cs.oslomet.no/~dbuser5/www/jsonout.php"}).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+            return task.execute(params).get();
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return allHus;
     }
 
     public void deleteHus(int in_id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_HUS, HUS_KEY_ID + " =? ",
-
-                new String[]{Integer.toString(in_id)});
-        db.close();
+        getJSON task = new getJSON();
+        String[] params = {"http://studdata.cs.oslomet.no/~dbuser5/www/deleteHus.php?id=" + in_id, "GET"};
+        task.execute(params);
     }
 
     public void updateHus(Hus hus) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(HUS_KEY_BESKRIVELSE, hus.getBeskrivelse());
-        values.put(HUS_KEY_GATEADRESSE, hus.getGateadresse());
-        values.put(HUS_KEY_GPSLAT, hus.getGps_lat());
-        values.put(HUS_KEY_GPSLONG, hus.getGps_long());
-        values.put(HUS_KEY_ETASJER, hus.getEtasjer());
-        db.update(TABLE_HUS, values, HUS_KEY_ID + "= ?",
-                new String[]{String.valueOf(hus.get_ID())});
-        db.close();
+        JSONObject jsonOutput = new JSONObject();
+        try {
+            jsonOutput.put("id", hus.get_ID());
+            jsonOutput.put("beskrivelse", hus.getBeskrivelse());
+            jsonOutput.put("gateadresse", hus.getGateadresse());
+            jsonOutput.put("gps-lat", hus.getGps_lat());
+            jsonOutput.put("gps-long", hus.getGps_long());
+            jsonOutput.put("etasjer", hus.getEtasjer());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        String jsonOutputString = jsonOutput.toString();
+
+        getJSON task = new getJSON();
+        String[] params = {"http://studdata.cs.oslomet.no/~dbuser5/www/saveEdit.php?id=" + hus.get_ID(), "POST", jsonOutputString};
+        task.execute(params);
     }
 
     public Hus findHus(int id) {
@@ -112,6 +118,8 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 
+
+
     private class getJSON extends AsyncTask<String, Void, ArrayList<Hus>> {
         JSONObject jsonObject;
 
@@ -123,11 +131,17 @@ public class DBHandler extends SQLiteOpenHelper {
             for (String url : urls) {
                 try {
                     URL urlen = new URL(urls[0]);
-                    HttpURLConnection conn = (HttpURLConnection)
-                            urlen.openConnection();
-                    conn.setRequestMethod("GET");
-                    conn.setRequestProperty("Accept",
-                            "application/json");
+                    HttpURLConnection conn = (HttpURLConnection) urlen.openConnection();
+                    conn.setRequestMethod(urls[1]);
+                    conn.setRequestProperty("Accept", "application/json");
+                    if (urls[1].equals("POST")){
+                        conn.setDoOutput(true);
+                        try(OutputStream os = conn.getOutputStream()) {
+                            System.out.println(urls[2]);
+                            byte[] input = urls[2].getBytes(StandardCharsets.UTF_8);
+                            os.write(input, 0, input.length);
+                        }
+                    }
                     if (conn.getResponseCode() != 200) {
                         throw new RuntimeException("Failed : HTTP error code : "
                                 + conn.getResponseCode());
@@ -169,6 +183,7 @@ public class DBHandler extends SQLiteOpenHelper {
             }
             return retur;
         }
+
         @Override
         protected void onPostExecute(ArrayList<Hus> hus) {
             System.out.println("Kommer hit!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
