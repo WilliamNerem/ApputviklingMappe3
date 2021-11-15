@@ -3,6 +3,7 @@
     <string name="titleEditHus">Endre hus</string>
     <string name="hintBeskrivelse">Skriv beskrivelse</string>
     <string name="hintGateadresse">Skriv inn gateadresse</string>
-    <string name="hintGpsKoordinater">Skriv inn gps-koordinater</string>
+    <string name="hintLatitude">Skriv inn latitude</string>
+    <string name="hintLongitude">Skriv inn longitude</string>
     <string name="hintEtasjer">Skriv inn antall etasjer</string>
 </resources>

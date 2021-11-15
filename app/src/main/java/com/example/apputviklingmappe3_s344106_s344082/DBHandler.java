@@ -87,8 +87,8 @@ public class DBHandler extends SQLiteOpenHelper {
             jsonOutput.put("id", hus.get_ID());
             jsonOutput.put("beskrivelse", hus.getBeskrivelse());
             jsonOutput.put("gateadresse", hus.getGateadresse());
-            jsonOutput.put("gps-lat", 123);
-            jsonOutput.put("gps-long", 321);
+            jsonOutput.put("gps-lat", hus.getGps_lat());
+            jsonOutput.put("gps-long", hus.getGps_long());
             jsonOutput.put("etasjer", hus.getEtasjer());
         } catch (JSONException e) {
             e.printStackTrace();
