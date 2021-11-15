@@ -19,6 +19,7 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
     private final int mResource;
     private DBHandler db;
     private final List<Hus> listHus;
+    private int id;
 
     public HusListAdapter(Context context, int resource, List<Hus> objects) {
         super(context, resource, objects);
@@ -39,7 +40,7 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
         ImageButton buttonEditHus = (ImageButton) convertView.findViewById(R.id.buttonEditHus);
         ImageButton buttonDeleteHus = (ImageButton) convertView.findViewById(R.id.buttonDeleteHus);
 
-        int id = getItem(position).get_ID();
+        id = getItem(position).get_ID();
         String beskrivelse = getItem(position).getBeskrivelse();
         String gateadresse = getItem(position).getGateadresse();
         String gpsKoordinater = getItem(position).getGpsKoordinater();
@@ -120,7 +121,8 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
 
                 if (validation(editBeskrivelse, editGateadresse, editGpsKoordinater, editEtasjer, alertConvertView.getContext())){
                     db = new DBHandler(alertConvertView.getContext());
-                    Hus etHus = db.findHus(id);
+                    Hus etHus = new Hus();
+                    etHus.set_ID(id);
                     etHus.setBeskrivelse(editBeskrivelse.getText().toString());
                     etHus.setGateadresse(editGateadresse.getText().toString());
                     etHus.setGpsKoordinater(editGpsKoordinater.getText().toString());
