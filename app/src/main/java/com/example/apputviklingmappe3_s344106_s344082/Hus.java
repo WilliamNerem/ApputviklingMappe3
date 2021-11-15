@@ -4,23 +4,26 @@ public class Hus {
     int _ID;
     String beskrivelse;
     String gateadresse;
-    String gpsKoordinater;
+    String gps_lat;
+    String gps_long;
     int etasjer;
 
     public Hus() {}
 
-    public Hus(String beskrivelse, String gateadresse, String gpsKoordinater, int etasjer) {
+    public Hus(String beskrivelse, String gateadresse, String gps_lat, String gps_long, int etasjer) {
         this.beskrivelse = beskrivelse;
         this.gateadresse = gateadresse;
-        this.gpsKoordinater = gpsKoordinater;
+        this.gps_lat = gps_lat;
+        this.gps_long = gps_long;
         this.etasjer = etasjer;
     }
 
-    public Hus(int _ID, String beskrivelse, String gateadresse, String gpsKoordinater, int etasjer) {
+    public Hus(int _ID, String beskrivelse, String gateadresse, String gps_lat, String gps_long, int etasjer) {
         this._ID = _ID;
         this.beskrivelse = beskrivelse;
         this.gateadresse = gateadresse;
-        this.gpsKoordinater = gpsKoordinater;
+        this.gps_lat = gps_lat;
+        this.gps_long = gps_long;
         this.etasjer = etasjer;
     }
 
@@ -48,12 +51,20 @@ public class Hus {
         this.gateadresse = gateadresse;
     }
 
-    public String getGpsKoordinater() {
-        return gpsKoordinater;
+    public String getGps_lat() {
+        return gps_lat;
     }
 
-    public void setGpsKoordinater(String gpsKoordinater) {
-        this.gpsKoordinater = gpsKoordinater;
+    public void setGps_lat(String gps_lat) {
+        this.gps_lat = gps_lat;
+    }
+
+    public String getGps_long() {
+        return gps_long;
+    }
+
+    public void setGps_long(String gps_long) {
+        this.gps_long = gps_long;
     }
 
     public int getEtasjer() {
