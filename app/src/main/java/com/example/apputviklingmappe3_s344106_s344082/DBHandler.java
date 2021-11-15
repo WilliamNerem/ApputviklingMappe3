@@ -50,18 +50,22 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public void addHus(Hus hus) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+        JSONObject jsonOutput = new JSONObject();
+        try {
+            jsonOutput.put("beskrivelse", hus.getBeskrivelse());
+            jsonOutput.put("gateadresse", hus.getGateadresse());
+            jsonOutput.put("gps-lat", hus.getGps_lat());
+            jsonOutput.put("gps-long", hus.getGps_long());
+            jsonOutput.put("etasjer", hus.getEtasjer());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        String gps = HUS_KEY_GPSLAT + ", " + HUS_KEY_GPSLONG;
+        String jsonOutputString = jsonOutput.toString();
 
-        values.put(HUS_KEY_BESKRIVELSE, hus.getBeskrivelse());
-        values.put(HUS_KEY_GATEADRESSE, hus.getGateadresse());
-        values.put(HUS_KEY_GPSLAT, hus.getGps_lat());
-        values.put(HUS_KEY_GPSLONG, hus.getGps_long());
-        values.put(HUS_KEY_ETASJER, hus.getEtasjer());
-        db.insert(TABLE_HUS, null, values);
-        db.close();
+        getJSON task = new getJSON();
+        String[] params = {"http://studdata.cs.oslomet.no/~dbuser5/www/jsonin.php", "POST", jsonOutputString};
+        task.execute(params);
     }
 
     public List<Hus> findAllHus() {
