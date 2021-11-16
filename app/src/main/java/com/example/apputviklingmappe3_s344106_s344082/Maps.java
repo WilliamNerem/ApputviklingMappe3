@@ -35,6 +35,7 @@ import java.util.Locale;
 public class Maps extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap mMap;
     DBHandler db;
+    private TextView tvTitle;
     private ImageView btnLeggTil;
     static public ArrayList<Marker> markers;
     static public List<Hus> alleHus;
@@ -51,6 +52,8 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         db = new DBHandler(this);
+        tvTitle = (TextView) findViewById(R.id.title);
+        tvTitle.setText(R.string.titleMaps);
         alleHus = db.findAllHus();
         btnLeggTil = (ImageView) findViewById(R.id.list);
         System.out.println();

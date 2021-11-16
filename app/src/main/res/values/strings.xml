@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ApputviklingMappe3</string>
-    <string name="title">ApputviklingMappe3</string>
+    <string name="titleMaps">Kart over hus</string>
+    <string name="titleList">Liste over hus</string>
     <string name="titleEditHus">Endre hus</string>
     <string name="titleLeggTil">Legg til hus</string>
     <string name="hintBeskrivelse">Skriv beskrivelse</string>

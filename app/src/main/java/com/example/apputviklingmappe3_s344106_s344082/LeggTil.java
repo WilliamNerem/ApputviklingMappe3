@@ -29,6 +29,7 @@ import java.util.Locale;
 
 public class LeggTil extends AppCompatActivity {
     private DBHandler db;
+    private TextView tvTitle;
     private ImageView btnList;
     private ImageView btnBack;
     private Button btn;
@@ -45,6 +46,8 @@ public class LeggTil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.legg_til);
         db = new DBHandler(this);
+        tvTitle = (TextView) findViewById(R.id.title);
+        tvTitle.setText(R.string.titleLeggTil);
         btnList = (ImageView) findViewById(R.id.list);
         btnBack = (ImageView) findViewById(R.id.back);
         btn = (Button) findViewById(R.id.btnLeggTil);
