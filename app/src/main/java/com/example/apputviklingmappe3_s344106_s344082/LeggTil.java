@@ -69,10 +69,10 @@ public class LeggTil extends AppCompatActivity {
         editGateadresse = findViewById(R.id.gateadresse);
         geocoder = new Geocoder(this, Locale.getDefault());
         cords = null;
-
+        editGateadresse.setText("");
         if (getIntent().getExtras() != null){
             cords = getIntent().getExtras().getParcelable("lat,long");
-            btnEditAddresse.setText(R.string.btnLeggTil);
+            btnEditAddresse.setText(R.string.btnEndreAddresse);
             try {
                 adresses = geocoder.getFromLocation(cords.latitude,cords.longitude,1);
                 editGateadresse.setText(adresses.get(0).getAddressLine(0));
@@ -80,9 +80,8 @@ public class LeggTil extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            btnEditAddresse.setText(R.string.btnLeggTil);
+            btnEditAddresse.setText(R.string.btnVelgAddresse);
         }
-        editGateadresse.setText("");
         button();
     }
 
