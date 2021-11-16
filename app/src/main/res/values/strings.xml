@@ -9,6 +9,7 @@
     <string name="hintLatitude">Skriv inn latitude</string>
     <string name="hintLongitude">Skriv inn longitude</string>
     <string name="btnLeggTil">Legg til</string>
+    <string name="btnEndre">Endre</string>
     <string name="btnAvbryt">Avbryt</string>
     <string name="btnVelgAddresse">Velg addresse</string>
     <string name="btnEndreAddresse">Endre addresse</string>

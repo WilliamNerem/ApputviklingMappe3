@@ -1,7 +1,5 @@
 package com.example.apputviklingmappe3_s344106_s344082;
 
-import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
@@ -14,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,7 +46,7 @@ public class EditHus extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.alert_edit_hus);
+        setContentView(R.layout.hus_form);
         db = new DBHandler(this);
 
         id = getIntent().getExtras().getInt("id");
@@ -65,7 +61,8 @@ public class EditHus extends AppCompatActivity {
         btnBack = (ImageView) findViewById(R.id.back);
         btnAdd = (ImageView) findViewById(R.id.add);
         btnAdd.setVisibility(View.INVISIBLE);
-        btn = (Button) findViewById(R.id.btnEndre);
+        btn = (Button) findViewById(R.id.btnContinue);
+        btn.setText(R.string.btnEndre);
         btnAvbryt = (Button) findViewById(R.id.btnAvbryt);
         btnEditAddresse = (Button) findViewById(R.id.editAddresse);
         editBeskrivelse = findViewById(R.id.beskrivelse);

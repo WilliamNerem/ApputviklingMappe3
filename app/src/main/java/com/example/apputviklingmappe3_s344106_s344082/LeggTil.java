@@ -34,6 +34,7 @@ public class LeggTil extends AppCompatActivity {
     private ImageView btnBack;
     private ImageView btnAdd;
     private Button btn;
+    private Button btnAvbryt;
     private Button btnEditAddresse;
     private EditText editBeskrivelse;
     private TextView editGateadresse;
@@ -47,15 +48,17 @@ public class LeggTil extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.legg_til);
+        setContentView(R.layout.hus_form);
         db = new DBHandler(this);
         tvTitle = (TextView) findViewById(R.id.title);
         tvTitle.setText(R.string.titleLeggTil);
         btnList = (ImageView) findViewById(R.id.list);
+        btnList.setVisibility(View.INVISIBLE);
         btnBack = (ImageView) findViewById(R.id.back);
         btnAdd = (ImageView) findViewById(R.id.add);
         btnAdd.setVisibility(View.INVISIBLE);
-        btn = (Button) findViewById(R.id.btnLeggTil);
+        btn = (Button) findViewById(R.id.btnContinue);
+        btnAvbryt = (Button) findViewById(R.id.btnAvbryt);
         btnEditAddresse = (Button) findViewById(R.id.editAddresse);
         editBeskrivelse = findViewById(R.id.beskrivelse);
         spinnerEtasjer = findViewById(R.id.etasjer);
@@ -130,6 +133,13 @@ public class LeggTil extends AppCompatActivity {
                     Maps.edit = false;
                     startActivity(new Intent(LeggTil.this, HusList.class));
                 }
+            }
+        });
+
+        btnAvbryt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
     }

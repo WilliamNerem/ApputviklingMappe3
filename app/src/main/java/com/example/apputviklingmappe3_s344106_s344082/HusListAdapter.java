@@ -78,8 +78,6 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
         buttonEditHus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //AlertDialog created = buildAlertDialog(currentView, id, tvBeskrivelse, tvGateadresse, tvEtasjer);
-                //created.show();
                 Intent intent = new Intent(mContext, EditHus.class);
                 intent.putExtra("id", id);
                 intent.putExtra("beskrivelse", beskrivelse);
@@ -142,76 +140,5 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
 
             }
         });
-    }
-
-    public boolean validation(EditText beskrivelse, EditText gateadresse, Spinner etasjer, Context context){
-        String strBeskrivelse = beskrivelse.getText().toString();
-        String strGateadresse = gateadresse.getText().toString();
-        String strEtasjer = etasjer.getSelectedItem().toString();
-
-        if (strBeskrivelse.equals("") || strGateadresse.equals("") || strEtasjer.equals("Velg antall Etasjer")){
-            Toast.makeText(context,"Alle felt må fylles ut", Toast.LENGTH_SHORT).show();
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    private AlertDialog buildAlertDialog(View view, int id, TextView tvBeskrivelse, TextView tvGateadresse, TextView tvEtasjer){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(view.getContext());
-        alertDialog.setView(R.layout.alert_edit_hus);
-
-        LayoutInflater alertInflater = LayoutInflater.from(view.getContext());
-        View alertConvertView = alertInflater.inflate(R.layout.alert_edit_hus, null);
-
-        alertDialog.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                dialog.cancel();
-            }
-        });
-
-        alertDialog.setPositiveButton("Lagre", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-
-                EditText editBeskrivelse = alertConvertView.findViewById(R.id.beskrivelse);
-                EditText editGateadresse = alertConvertView.findViewById(R.id.gateadresse);
-                Spinner spinnerEtasjer = alertConvertView.findViewById(R.id.etasjer);
-
-                if (validation(editBeskrivelse, editGateadresse, spinnerEtasjer, alertConvertView.getContext())){
-                    db = new DBHandler(alertConvertView.getContext());
-                    //LatLng cords = getIntent().getExtras().getParcelable("lat,long");
-                    Hus etHus = new Hus();
-                    etHus.set_ID(id);
-                    etHus.setBeskrivelse(editBeskrivelse.getText().toString());
-                    etHus.setGateadresse(editGateadresse.getText().toString());
-                    etHus.setEtasjer(Integer.parseInt(spinnerEtasjer.getSelectedItem().toString()));
-                    db.updateHus(etHus);
-                    ContentValues resValues = new ContentValues();
-                    resValues.clear();
-                    resValues.put("id", id);
-                    resValues.put("beskrivelse", etHus.beskrivelse);
-                    resValues.put("addresse", etHus.gateadresse);
-                    resValues.put("lat", etHus.gps_lat);
-                    resValues.put("long", etHus.gps_long);
-                    resValues.put("etasjer", etHus.etasjer);
-                    listHus.clear();
-                    listHus.addAll(db.findAllHus());
-                    notifyDataSetChanged();
-                }
-            }
-        });
-
-        alertDialog.setView(alertConvertView);
-
-        EditText editBeskrivelse = alertConvertView.findViewById(R.id.beskrivelse);
-        EditText editGateaddresse = alertConvertView.findViewById(R.id.gateadresse);
-        Spinner spinnerEtasjer = alertConvertView.findViewById(R.id.etasjer);
-        editBeskrivelse.setText(tvBeskrivelse.getText());
-        editGateaddresse.setText(tvGateadresse.getText());
-
-        setSpinner(alertConvertView, spinnerEtasjer);
-
-        return alertDialog.create();
-
     }
 }
