@@ -35,6 +35,10 @@
             android:name="com.example.apputviklingmappe3_s344106_s344082.LeggTil"
             android:exported="true">
         </activity>
+        <activity
+            android:name="com.example.apputviklingmappe3_s344106_s344082.EditHus"
+            android:exported="true">
+        </activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
