@@ -35,6 +35,8 @@ public class LeggTil extends AppCompatActivity {
     private EditText editGateadresse;
     private Spinner spinnerEtasjer;
     public List<Address> adresses;
+    public static String sendtBeskrivelse = "";
+    public static int sendtEtasjer = 0;
     Geocoder geocoder;
     LatLng cords;
 
@@ -47,18 +49,26 @@ public class LeggTil extends AppCompatActivity {
         btn = (Button) findViewById(R.id.btnLeggTil);
         btnEditAddresse = (Button) findViewById(R.id.editAddresse);
         editBeskrivelse = findViewById(R.id.beskrivelse);
-        editGateadresse = findViewById(R.id.gateadresse);
         spinnerEtasjer = findViewById(R.id.etasjer);
+        setSpinner();
+        if(!(sendtBeskrivelse.equals(""))) {
+            editBeskrivelse.setText(sendtBeskrivelse);
+        }
+        if (sendtEtasjer != 0) {
+            spinnerEtasjer.setSelection(sendtEtasjer);
+        }
+        editGateadresse = findViewById(R.id.gateadresse);
         geocoder = new Geocoder(this, Locale.getDefault());
+        cords = null;
         cords = getIntent().getExtras().getParcelable("lat,long");
         try {
             adresses = geocoder.getFromLocation(cords.latitude,cords.longitude,1);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        editGateadresse.setText("");
         editGateadresse.setText(adresses.get(0).getAddressLine(0));
         button();
-        setSpinner();
     }
 
     private void button(){
@@ -72,7 +82,13 @@ public class LeggTil extends AppCompatActivity {
         btnEditAddresse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                Intent i = new Intent(LeggTil.this, Maps.class);
+                Maps.edit = true;
+                sendtBeskrivelse = editBeskrivelse.getText().toString();
+                if(!(spinnerEtasjer.getSelectedItem().toString().equals("Velg antall Etasjer"))) {
+                    sendtEtasjer = Integer.parseInt(spinnerEtasjer.getSelectedItem().toString());
+                }
+                startActivity(i);
             }
         });
 
@@ -87,6 +103,9 @@ public class LeggTil extends AppCompatActivity {
                     hus.setGps_long(Double.toString(cords.longitude));
                     hus.setEtasjer(Integer.parseInt(spinnerEtasjer.getSelectedItem().toString()));
                     db.addHus(hus);
+                    sendtEtasjer = 0;
+                    sendtBeskrivelse = "";
+                    Maps.edit = false;
                     startActivity(new Intent(LeggTil.this, HusList.class));
                 }
             }
