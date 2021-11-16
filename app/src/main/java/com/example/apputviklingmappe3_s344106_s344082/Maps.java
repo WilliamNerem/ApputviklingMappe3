@@ -48,7 +48,8 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     Geocoder geocoder;
     boolean alreadyMark;
     Marker markAdded;
-    static boolean edit;
+    static boolean editLeggTil;
+    static boolean editEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,30 +122,39 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                     alreadyMark = false;
                 }
                 newMark = new LatLng(latLng.latitude, latLng.longitude);
-                geocoder = new Geocoder(Maps.this, Locale.getDefault());
+                while (true) {
+                    if (Geocoder.isPresent()) {
+                        geocoder = new Geocoder(Maps.this, Locale.getDefault());
+                        break;
+                    }
+                }
                 try {
-                    adresses = geocoder.getFromLocation(newMark.latitude, newMark.longitude, 1);
-                } catch (IOException e) {
-                    Toast.makeText(Maps.this, "Ikke en gyldig adresse!", Toast.LENGTH_SHORT).show();
+                        adresses = geocoder.getFromLocation(newMark.latitude, newMark.longitude, 1);
+                    }
+                catch (IOException e) {
+                    Toast.makeText(Maps.this, "Geocoder er nede!", Toast.LENGTH_SHORT).show();
 
                 }
                 if (adresses == null) {
-                    Toast.makeText(Maps.this, "Ikke en gyldig adresse!", Toast.LENGTH_LONG);
+                    Toast.makeText(Maps.this, "Ikke en gyldig adresse!", Toast.LENGTH_LONG).show();
                 } else {
                     MarkerOptions markerOptions = new MarkerOptions();
                     if ((latLng.latitude < 59.91910325593771 || latLng.latitude > 59.92291805910473)
                             || (latLng.longitude < 10.73202922940254 || latLng.longitude > 10.738811194896696)) {
                         Toast.makeText(Maps.this, "Adressen er ikke på OsloMet!", Toast.LENGTH_SHORT).show();
                     } else {
-                        if (edit) {
+                        if (editLeggTil) {
                             Intent i = new Intent(Maps.this, LeggTil.class);
                             i.putExtra("lat,long", latLng);
-                            System.out.println("Kommer inn i parce");
+                            startActivity(i);
+                        }
+                        else if (editEdit) {
+                            Intent i = new Intent(Maps.this, EditHus.class);
+                            i.putExtra("lat,long", latLng);
                             startActivity(i);
                         }
                         else {
                             markerOptions.position(latLng);
-                            System.out.println("Kommer ikke inn i parce");
                             markerOptions.title("Trykk her for å legge til hus");
                             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                             markAdded = mMap.addMarker(markerOptions);

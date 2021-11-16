@@ -111,6 +111,7 @@ public class EditHus extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Maps.editEdit = false;
                 startActivity(new Intent(EditHus.this, Maps.class));
                 finishAffinity();
             }
@@ -120,7 +121,7 @@ public class EditHus extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(EditHus.this, Maps.class);
-                Maps.edit = true;
+                Maps.editEdit = true;
                 sendtBeskrivelseEdit = editBeskrivelse.getText().toString();
                 if(!(spinnerEtasjer.getSelectedItem().toString().equals("Velg antall Etasjer"))) {
                     sendtEtasjerEdit = Integer.parseInt(spinnerEtasjer.getSelectedItem().toString());
@@ -143,6 +144,11 @@ public class EditHus extends AppCompatActivity {
                     etHus.setEtasjer(Integer.parseInt(spinnerEtasjer.getSelectedItem().toString()));
                     db.updateHus(etHus);
                     onBackPressed();
+                    sendtEtasjerEdit = 0;
+                    sendtBeskrivelseEdit = "";
+                    Maps.editEdit = false;
+                    startActivity(new Intent(EditHus.this, HusList.class));
+                    finish();
                 }
             }
         });
@@ -150,6 +156,7 @@ public class EditHus extends AppCompatActivity {
         btnAvbryt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Maps.editEdit = false;
                 onBackPressed();
             }
         });

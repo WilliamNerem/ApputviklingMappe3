@@ -96,6 +96,7 @@ public class LeggTil extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Maps.editLeggTil = false;
                 startActivity(new Intent(LeggTil.this, Maps.class));
                 finishAffinity();
             }
@@ -105,7 +106,7 @@ public class LeggTil extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(LeggTil.this, Maps.class);
-                Maps.edit = true;
+                Maps.editLeggTil = true;
                 sendtBeskrivelse = editBeskrivelse.getText().toString();
                 if(!(spinnerEtasjer.getSelectedItem().toString().equals("Velg antall Etasjer"))) {
                     sendtEtasjer = Integer.parseInt(spinnerEtasjer.getSelectedItem().toString());
@@ -127,7 +128,7 @@ public class LeggTil extends AppCompatActivity {
                     db.addHus(hus);
                     sendtEtasjer = 0;
                     sendtBeskrivelse = "";
-                    Maps.edit = false;
+                    Maps.editLeggTil = false;
                     startActivity(new Intent(LeggTil.this, HusList.class));
                 }
             }
