@@ -78,8 +78,7 @@ public class LeggTil extends AppCompatActivity {
         btnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LeggTil.this, HusList.class));
-                finish();
+                onBackPressed();
             }
         });
 
