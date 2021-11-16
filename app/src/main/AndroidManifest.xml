@@ -21,15 +21,15 @@
         <activity
             android:name="com.example.apputviklingmappe3_s344106_s344082.Maps"
             android:exported="true">
+        </activity>
+        <activity
+            android:name="com.example.apputviklingmappe3_s344106_s344082.HusList"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.example.apputviklingmappe3_s344106_s344082.HusList"
-            android:exported="true">
         </activity>
         <activity
             android:name="com.example.apputviklingmappe3_s344106_s344082.LeggTil"

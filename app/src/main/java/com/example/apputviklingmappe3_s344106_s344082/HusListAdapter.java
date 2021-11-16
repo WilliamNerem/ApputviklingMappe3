@@ -3,15 +3,21 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.List;
 
 public class HusListAdapter extends ArrayAdapter<Hus> {
@@ -39,7 +45,7 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
 
         ImageButton buttonEditHus = (ImageButton) convertView.findViewById(R.id.buttonEditHus);
         ImageButton buttonDeleteHus = (ImageButton) convertView.findViewById(R.id.buttonDeleteHus);
-
+/*
         id = getItem(position).get_ID();
         String beskrivelse = getItem(position).getBeskrivelse();
         String gateadresse = getItem(position).getGateadresse();
@@ -47,20 +53,19 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
         String gpsLong = getItem(position).getGps_long();
         int etasjer = getItem(position).getEtasjer();
         Hus hus = new Hus(beskrivelse, gateadresse, gpsLat, gpsLong, etasjer);
-
+*/
         TextView tvId = (TextView) convertView.findViewById(R.id.itemHus);
         TextView tvBeskrivelse = (TextView) convertView.findViewById(R.id.itemHusBeskrivelse);
         TextView tvGateadresse = (TextView) convertView.findViewById(R.id.itemHusGateadresse);
-        TextView tvGpsLat = (TextView) convertView.findViewById(R.id.itemHusGpsLat);
-        TextView tvGpsLong = (TextView) convertView.findViewById(R.id.itemHusGpsLong);
         TextView tvEtasjer = (TextView) convertView.findViewById(R.id.itemHusEtasjer);
 
+        String beskrivelse = getItem(position).getBeskrivelse();
+        String gateadresse = getItem(position).getGateadresse();
         String strId = String.valueOf(id);
         tvId.setText(strId);
         tvBeskrivelse.setText(beskrivelse);
         tvGateadresse.setText(gateadresse);
-        tvGpsLat.setText(gpsLat);
-        tvGpsLong.setText(gpsLong);
+        int etasjer = getItem(position).getEtasjer();
         String strEtasjer = String.valueOf(etasjer);
         tvEtasjer.setText(strEtasjer);
 
@@ -68,7 +73,7 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
         buttonEditHus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog created = buildAlertDialog(currentView, id, tvBeskrivelse, tvGateadresse, tvGpsLat, tvGpsLong, tvEtasjer);
+                AlertDialog created = buildAlertDialog(currentView, id, tvBeskrivelse, tvGateadresse, tvEtasjer);
                 created.show();
             }
         });
@@ -87,14 +92,52 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
         return convertView;
     }
 
-    public boolean validation(EditText beskrivelse, EditText gateadresse, EditText gpsLat, EditText gpsLong, EditText etasjer, Context context){
+    private void setSpinner(View v, Spinner spinner) {
+        String[] items = v.getResources().getStringArray(R.array.etasjer);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(mContext, android.R.layout.simple_spinner_item, items) {
+            @Override
+            public boolean isEnabled(int position) {
+                return position != 0;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    tv.setTextColor(Color.GRAY);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    public boolean validation(EditText beskrivelse, EditText gateadresse, Spinner etasjer, Context context){
         String strBeskrivelse = beskrivelse.getText().toString();
         String strGateadresse = gateadresse.getText().toString();
-        String strGpsLat = gpsLat.getText().toString();
-        String strGpsLong = gpsLong.getText().toString();
-        String strEtasjer = etasjer.getText().toString();
+        String strEtasjer = etasjer.getSelectedItem().toString();
 
-        if (strBeskrivelse.equals("") || strGateadresse.equals("") || strGpsLat.equals("") || strGpsLong.equals("") || strEtasjer.equals("")){
+        if (strBeskrivelse.equals("") || strGateadresse.equals("") || strEtasjer.equals("Velg antall Etasjer")){
             Toast.makeText(context,"Alle felt må fylles ut", Toast.LENGTH_SHORT).show();
             return false;
         } else {
@@ -102,7 +145,7 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
         }
     }
 
-    private AlertDialog buildAlertDialog(View view, int id, TextView tvBeskrivelse, TextView tvGateadresse, TextView tvGpsLat, TextView tvGpsLong, TextView tvEtasjer){
+    private AlertDialog buildAlertDialog(View view, int id, TextView tvBeskrivelse, TextView tvGateadresse, TextView tvEtasjer){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(view.getContext());
         alertDialog.setView(R.layout.alert_edit_hus);
 
@@ -120,19 +163,16 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
 
                 EditText editBeskrivelse = alertConvertView.findViewById(R.id.beskrivelse);
                 EditText editGateadresse = alertConvertView.findViewById(R.id.gateadresse);
-                EditText editGpsLat = alertConvertView.findViewById(R.id.gpsLat);
-                EditText editGpsLong = alertConvertView.findViewById(R.id.gpsLong);
-                EditText editEtasjer = alertConvertView.findViewById(R.id.etasjer);
+                Spinner spinnerEtasjer = alertConvertView.findViewById(R.id.etasjer);
 
-                if (validation(editBeskrivelse, editGateadresse, editGpsLat, editGpsLong, editEtasjer, alertConvertView.getContext())){
+                if (validation(editBeskrivelse, editGateadresse, spinnerEtasjer, alertConvertView.getContext())){
                     db = new DBHandler(alertConvertView.getContext());
+                    //LatLng cords = getIntent().getExtras().getParcelable("lat,long");
                     Hus etHus = new Hus();
                     etHus.set_ID(id);
                     etHus.setBeskrivelse(editBeskrivelse.getText().toString());
                     etHus.setGateadresse(editGateadresse.getText().toString());
-                    etHus.setGps_lat(editGpsLat.getText().toString());
-                    etHus.setGps_long(editGpsLong.getText().toString());
-                    etHus.setEtasjer(Integer.parseInt(editEtasjer.getText().toString()));
+                    etHus.setEtasjer(Integer.parseInt(spinnerEtasjer.getSelectedItem().toString()));
                     db.updateHus(etHus);
                     ContentValues resValues = new ContentValues();
                     resValues.clear();
@@ -153,14 +193,11 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
 
         EditText editBeskrivelse = alertConvertView.findViewById(R.id.beskrivelse);
         EditText editGateaddresse = alertConvertView.findViewById(R.id.gateadresse);
-        EditText editGpsLat = alertConvertView.findViewById(R.id.gpsLat);
-        EditText editGpsLong = alertConvertView.findViewById(R.id.gpsLong);
-        EditText editEtasjer = alertConvertView.findViewById(R.id.etasjer);
+        Spinner spinnerEtasjer = alertConvertView.findViewById(R.id.etasjer);
         editBeskrivelse.setText(tvBeskrivelse.getText());
         editGateaddresse.setText(tvGateadresse.getText());
-        editGpsLat.setText(tvGpsLat.getText());
-        editGpsLong.setText(tvGpsLong.getText());
-        editEtasjer.setText(tvEtasjer.getText());
+
+        setSpinner(alertConvertView, spinnerEtasjer);
 
         return alertDialog.create();
 

@@ -13,8 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 public class HusList extends AppCompatActivity {
-    private ImageView btnMaps;
-    private Button btn;
+    private ImageView btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +21,7 @@ public class HusList extends AppCompatActivity {
         setContentView(R.layout.hus_list);
 
         ListView listView = (ListView) findViewById(R.id.list_view_hus);
-        btnMaps = (ImageView) findViewById(R.id.maps);
-        btn = (Button) findViewById(R.id.btnLeggTil);
+        btnAdd = (ImageView) findViewById(R.id.add);
         button();
 
         DBHandler db = new DBHandler(this);
@@ -34,14 +32,7 @@ public class HusList extends AppCompatActivity {
     }
 
     private void button(){
-        btnMaps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HusList.this, Maps.class));
-            }
-        });
-
-        btn.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HusList.this, LeggTil.class));
