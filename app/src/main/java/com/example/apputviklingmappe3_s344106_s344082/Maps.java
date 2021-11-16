@@ -57,18 +57,19 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         tvTitle = (TextView) findViewById(R.id.title);
         tvTitle.setText(R.string.titleMaps);
         alleHus = db.findAllHus();
-        btnAdd = (ImageView) findViewById(R.id.list);
+        btnAdd = (ImageView) findViewById(R.id.add);
+        btnAdd.setVisibility(View.INVISIBLE);
         btnBack = (ImageView) findViewById(R.id.back);
         btnBack.setVisibility(View.INVISIBLE);
-        btnList = (ImageView) findViewById(R.id.add);
-        btnList.setVisibility(View.INVISIBLE);
+        btnList = (ImageView) findViewById(R.id.list);
+        btnList.setColorFilter(Color.rgb(0, 0, 0));
         System.out.println();
         markers = new ArrayList<>();
         buttons();
     }
 
     private void buttons(){
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        btnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Maps.this, HusList.class));
