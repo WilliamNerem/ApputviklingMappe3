@@ -14,6 +14,7 @@ import java.util.List;
 
 public class HusList extends AppCompatActivity {
     private ImageView btnAdd;
+    private ImageView btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class HusList extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.list_view_hus);
         btnAdd = (ImageView) findViewById(R.id.add);
+        btnBack = (ImageView) findViewById(R.id.back);
         button();
 
         DBHandler db = new DBHandler(this);
@@ -36,6 +38,14 @@ public class HusList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HusList.this, LeggTil.class));
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HusList.this, Maps.class));
+                finishAffinity();
             }
         });
     }

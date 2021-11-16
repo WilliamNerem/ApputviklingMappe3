@@ -81,6 +81,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void deleteHus(int in_id) {
         getJSON task = new getJSON();
+        System.out.println(in_id);
         String[] params = {"http://studdata.cs.oslomet.no/~dbuser5/www/deleteHus.php?id=" + in_id, "GET"};
         task.execute(params);
     }

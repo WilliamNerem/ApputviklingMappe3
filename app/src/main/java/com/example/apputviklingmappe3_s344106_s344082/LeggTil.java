@@ -23,16 +23,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class LeggTil extends AppCompatActivity {
     private DBHandler db;
     private ImageView btnList;
+    private ImageView btnBack;
     private Button btn;
     private Button btnEditAddresse;
     private EditText editBeskrivelse;
-    private EditText editGateadresse;
+    private TextView editGateadresse;
     private Spinner spinnerEtasjer;
     public List<Address> adresses;
     Geocoder geocoder;
@@ -44,19 +46,24 @@ public class LeggTil extends AppCompatActivity {
         setContentView(R.layout.legg_til);
         db = new DBHandler(this);
         btnList = (ImageView) findViewById(R.id.list);
+        btnBack = (ImageView) findViewById(R.id.back);
         btn = (Button) findViewById(R.id.btnLeggTil);
         btnEditAddresse = (Button) findViewById(R.id.editAddresse);
         editBeskrivelse = findViewById(R.id.beskrivelse);
         editGateadresse = findViewById(R.id.gateadresse);
         spinnerEtasjer = findViewById(R.id.etasjer);
         geocoder = new Geocoder(this, Locale.getDefault());
-        cords = getIntent().getExtras().getParcelable("lat,long");
-        try {
+
+        if (getIntent().getExtras() != null){
+            cords = getIntent().getExtras().getParcelable("lat,long");try {
             adresses = geocoder.getFromLocation(cords.latitude,cords.longitude,1);
-        } catch (IOException e) {
-            e.printStackTrace();
+                editGateadresse.setText(adresses.get(0).getAddressLine(0));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        editGateadresse.setText(adresses.get(0).getAddressLine(0));
+
+
         button();
         setSpinner();
     }
@@ -65,14 +72,23 @@ public class LeggTil extends AppCompatActivity {
         btnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(LeggTil.this, HusList.class));
+                finish();
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 startActivity(new Intent(LeggTil.this, Maps.class));
+                finishAffinity();
             }
         });
 
         btnEditAddresse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
             }
         });
 
