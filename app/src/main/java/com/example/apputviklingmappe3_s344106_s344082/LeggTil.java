@@ -30,6 +30,7 @@ public class LeggTil extends AppCompatActivity {
     private DBHandler db;
     private ImageView btnList;
     private Button btn;
+    private Button btnEditAddresse;
     private EditText editBeskrivelse;
     private EditText editGateadresse;
     private Spinner spinnerEtasjer;
@@ -44,6 +45,7 @@ public class LeggTil extends AppCompatActivity {
         db = new DBHandler(this);
         btnList = (ImageView) findViewById(R.id.list);
         btn = (Button) findViewById(R.id.btnLeggTil);
+        btnEditAddresse = (Button) findViewById(R.id.editAddresse);
         editBeskrivelse = findViewById(R.id.beskrivelse);
         editGateadresse = findViewById(R.id.gateadresse);
         spinnerEtasjer = findViewById(R.id.etasjer);
@@ -64,6 +66,13 @@ public class LeggTil extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LeggTil.this, Maps.class));
+            }
+        });
+
+        btnEditAddresse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
             }
         });
 
