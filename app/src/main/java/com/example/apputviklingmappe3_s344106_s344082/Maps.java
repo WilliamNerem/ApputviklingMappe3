@@ -108,9 +108,6 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                     markAdded.remove();
                     alreadyMark = false;
                 }
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-
                 newMark = new LatLng(latLng.latitude, latLng.longitude);
                 geocoder = new Geocoder(Maps.this, Locale.getDefault());
                 try {
@@ -122,10 +119,17 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                 if (adresses == null) {
                     Toast.makeText(Maps.this, "Ikke en gyldig adresse!", Toast.LENGTH_LONG);
                 } else {
-                    markerOptions.title("Trykk her for å legge til hus");
-                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                    markAdded = mMap.addMarker(markerOptions);
-                    markers.add(markAdded);
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    if ((latLng.latitude < 59.91910325593771 || latLng.latitude > 59.92291805910473)
+                             || (latLng.longitude < 10.73202922940254 || latLng.longitude > 10.738811194896696)) {
+                        Toast.makeText(Maps.this, "Adressen er ikke på OsloMet!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        markerOptions.position(latLng);
+                        markerOptions.title("Trykk her for å legge til hus");
+                        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                        markAdded = mMap.addMarker(markerOptions);
+                        markers.add(markAdded);
+                    }
                     alreadyMark = true;
                 }
             }
