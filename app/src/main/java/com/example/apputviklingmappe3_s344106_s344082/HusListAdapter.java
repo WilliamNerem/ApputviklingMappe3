@@ -25,7 +25,6 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
     private final int mResource;
     private DBHandler db;
     private final List<Hus> listHus;
-    private int id;
 
     public HusListAdapter(Context context, int resource, List<Hus> objects) {
         super(context, resource, objects);
@@ -45,6 +44,8 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
 
         ImageButton buttonEditHus = (ImageButton) convertView.findViewById(R.id.buttonEditHus);
         ImageButton buttonDeleteHus = (ImageButton) convertView.findViewById(R.id.buttonDeleteHus);
+
+        int id = getItem(position).get_ID();
 /*
         id = getItem(position).get_ID();
         String beskrivelse = getItem(position).getBeskrivelse();

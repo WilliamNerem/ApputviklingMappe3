@@ -36,7 +36,10 @@ import java.util.Locale;
 public class Maps extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap mMap;
     DBHandler db;
-    private ImageView btnLeggTil;
+    private TextView tvTitle;
+    private ImageView btnAdd;
+    private ImageView btnBack;
+    private ImageView btnList;
     static public ArrayList<Marker> markers;
     static public List<Hus> alleHus;
     public List<Address> adresses;
@@ -53,15 +56,22 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         db = new DBHandler(this);
+        tvTitle = (TextView) findViewById(R.id.title);
+        tvTitle.setText(R.string.titleMaps);
         alleHus = db.findAllHus();
-        btnLeggTil = (ImageView) findViewById(R.id.list);
+        btnAdd = (ImageView) findViewById(R.id.add);
+        btnAdd.setVisibility(View.INVISIBLE);
+        btnBack = (ImageView) findViewById(R.id.back);
+        btnBack.setVisibility(View.INVISIBLE);
+        btnList = (ImageView) findViewById(R.id.list);
+        btnList.setColorFilter(Color.rgb(0, 0, 0));
         System.out.println();
         markers = new ArrayList<>();
         buttons();
     }
 
-    private void buttons() {
-        btnLeggTil.setOnClickListener(new View.OnClickListener() {
+    private void buttons(){
+        btnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Maps.this, HusList.class));

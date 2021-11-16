@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">ApputviklingMappe3</string>
-    <string name="title">ApputviklingMappe3</string>
+    <string name="titleMaps">Kart over hus</string>
+    <string name="titleList">Liste over hus</string>
     <string name="titleEditHus">Endre hus</string>
     <string name="titleLeggTil">Legg til hus</string>
     <string name="hintBeskrivelse">Skriv beskrivelse</string>
-    <string name="hintGateadresse">Skriv inn gateadresse</string>
+    <string name="hintGateadresse">Velg adresse</string>
     <string name="hintLatitude">Skriv inn latitude</string>
     <string name="hintLongitude">Skriv inn longitude</string>
-    <string name="hintEtasjer">Velg antall etasjer</string>
     <string name="btnLeggTil">Legg til</string>
     <string-array name="etasjer">
         <item>Velg antall Etasjer</item>
