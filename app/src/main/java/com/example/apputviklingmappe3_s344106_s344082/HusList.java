@@ -17,6 +17,7 @@ public class HusList extends AppCompatActivity {
     private TextView tvTitle;
     private ImageView btnAdd;
     private ImageView btnBack;
+    private ImageView btnList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,8 @@ public class HusList extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.list_view_hus);
         btnAdd = (ImageView) findViewById(R.id.add);
         btnBack = (ImageView) findViewById(R.id.back);
+        btnList = (ImageView) findViewById(R.id.list);
+        btnList.setVisibility(View.INVISIBLE);
         button();
 
         DBHandler db = new DBHandler(this);

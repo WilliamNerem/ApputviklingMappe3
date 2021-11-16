@@ -36,7 +36,9 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap mMap;
     DBHandler db;
     private TextView tvTitle;
-    private ImageView btnLeggTil;
+    private ImageView btnAdd;
+    private ImageView btnBack;
+    private ImageView btnList;
     static public ArrayList<Marker> markers;
     static public List<Hus> alleHus;
     public List<Address> adresses;
@@ -55,14 +57,18 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         tvTitle = (TextView) findViewById(R.id.title);
         tvTitle.setText(R.string.titleMaps);
         alleHus = db.findAllHus();
-        btnLeggTil = (ImageView) findViewById(R.id.list);
+        btnAdd = (ImageView) findViewById(R.id.list);
+        btnBack = (ImageView) findViewById(R.id.back);
+        btnBack.setVisibility(View.INVISIBLE);
+        btnList = (ImageView) findViewById(R.id.add);
+        btnList.setVisibility(View.INVISIBLE);
         System.out.println();
         markers = new ArrayList<>();
         buttons();
     }
 
     private void buttons(){
-        btnLeggTil.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Maps.this, HusList.class));

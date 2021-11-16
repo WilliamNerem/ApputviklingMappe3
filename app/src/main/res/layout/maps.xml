@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/mapsToolbar"
-        layout="@layout/top_app_bar_maps" />
+        layout="@layout/top_app_bar" />
 
     <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"

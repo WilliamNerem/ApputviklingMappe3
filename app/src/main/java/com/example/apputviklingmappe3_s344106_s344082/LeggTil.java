@@ -32,6 +32,7 @@ public class LeggTil extends AppCompatActivity {
     private TextView tvTitle;
     private ImageView btnList;
     private ImageView btnBack;
+    private ImageView btnAdd;
     private Button btn;
     private Button btnEditAddresse;
     private EditText editBeskrivelse;
@@ -50,6 +51,8 @@ public class LeggTil extends AppCompatActivity {
         tvTitle.setText(R.string.titleLeggTil);
         btnList = (ImageView) findViewById(R.id.list);
         btnBack = (ImageView) findViewById(R.id.back);
+        btnAdd = (ImageView) findViewById(R.id.add);
+        btnAdd.setVisibility(View.INVISIBLE);
         btn = (Button) findViewById(R.id.btnLeggTil);
         btnEditAddresse = (Button) findViewById(R.id.editAddresse);
         editBeskrivelse = findViewById(R.id.beskrivelse);
