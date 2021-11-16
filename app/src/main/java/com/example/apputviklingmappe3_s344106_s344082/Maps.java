@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -159,8 +160,12 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     }
 
     private void addMarker(Hus hus) {
-        LatLng location = new LatLng(Double.parseDouble(hus.getGps_lat()), Double.parseDouble(hus.getGps_long()));
-        MarkerOptions markerOp = new MarkerOptions().position(location).title(hus.gateadresse).snippet("Beskrivelse:" + hus.getBeskrivelse() + "\nKoordinater:" + hus.getGps_lat() + ", " + hus.getGps_long() + "\nEtasjer:" + hus.getEtasjer());
+        double lat = Double.parseDouble(hus.getGps_lat());
+        double lng = Double.parseDouble(hus.getGps_long());
+        LatLng location = new LatLng(lat, lng);
+        String strLat = new DecimalFormat("##.##").format(lat);
+        String strLng = new DecimalFormat("##.##").format(lng);
+        MarkerOptions markerOp = new MarkerOptions().position(location).title(hus.gateadresse).snippet("Beskrivelse: " + hus.getBeskrivelse() + "\nKoordinater: " + strLat + ", " + strLng + "\nEtasjer: " + hus.getEtasjer());
         Marker marker = mMap.addMarker(markerOp);
         markers.add(marker);
     }
