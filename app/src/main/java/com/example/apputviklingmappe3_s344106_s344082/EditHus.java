@@ -36,20 +36,21 @@ public class EditHus extends AppCompatActivity {
     private ImageView btnBack;
     private ImageView btnAdd;
     private Button btn;
+    private Button btnAvbryt;
     private Button btnEditAddresse;
     private EditText editBeskrivelse;
     private TextView tvGateadresse;
     private Spinner spinnerEtasjer;
     public List<Address> adresses;
-    public static String sendtBeskrivelse = "";
-    public static int sendtEtasjer = 0;
+    public static String sendtBeskrivelseEdit = "";
+    public static int sendtEtasjerEdit = 0;
     Geocoder geocoder;
     LatLng cords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.legg_til);
+        setContentView(R.layout.alert_edit_hus);
         db = new DBHandler(this);
 
         id = getIntent().getExtras().getInt("id");
@@ -58,12 +59,14 @@ public class EditHus extends AppCompatActivity {
         int oldEtasjer = getIntent().getExtras().getInt("etasjer");
 
         tvTitle = (TextView) findViewById(R.id.title);
-        tvTitle.setText(R.string.titleLeggTil);
+        tvTitle.setText(R.string.titleEditHus);
         btnList = (ImageView) findViewById(R.id.list);
+        btnList.setVisibility(View.INVISIBLE);
         btnBack = (ImageView) findViewById(R.id.back);
         btnAdd = (ImageView) findViewById(R.id.add);
         btnAdd.setVisibility(View.INVISIBLE);
-        btn = (Button) findViewById(R.id.btnLeggTil);
+        btn = (Button) findViewById(R.id.btnEndre);
+        btnAvbryt = (Button) findViewById(R.id.btnAvbryt);
         btnEditAddresse = (Button) findViewById(R.id.editAddresse);
         editBeskrivelse = findViewById(R.id.beskrivelse);
         editBeskrivelse.setText(oldBeskrivelse);
@@ -72,11 +75,14 @@ public class EditHus extends AppCompatActivity {
         setSpinner();
         spinnerEtasjer.setSelection(oldEtasjer);
 
-        if(!(sendtBeskrivelse.equals(""))) {
-            editBeskrivelse.setText(sendtBeskrivelse);
+        System.out.println("Bes: " + sendtBeskrivelseEdit);
+        System.out.println("Eta: " + sendtEtasjerEdit);
+
+        if(!(sendtBeskrivelseEdit.equals(""))) {
+            editBeskrivelse.setText(sendtBeskrivelseEdit);
         }
-        if (sendtEtasjer != 0) {
-            spinnerEtasjer.setSelection(sendtEtasjer);
+        if (sendtEtasjerEdit != 0) {
+            spinnerEtasjer.setSelection(sendtEtasjerEdit);
         }
 
         geocoder = new Geocoder(this, Locale.getDefault());
@@ -115,9 +121,9 @@ public class EditHus extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(EditHus.this, Maps.class);
                 Maps.edit = true;
-                sendtBeskrivelse = editBeskrivelse.getText().toString();
+                sendtBeskrivelseEdit = editBeskrivelse.getText().toString();
                 if(!(spinnerEtasjer.getSelectedItem().toString().equals("Velg antall Etasjer"))) {
-                    sendtEtasjer = Integer.parseInt(spinnerEtasjer.getSelectedItem().toString());
+                    sendtEtasjerEdit = Integer.parseInt(spinnerEtasjer.getSelectedItem().toString());
                 }
                 startActivity(i);
             }
@@ -136,9 +142,15 @@ public class EditHus extends AppCompatActivity {
                     etHus.setGps_long(Double.toString(cords.longitude));
                     etHus.setEtasjer(Integer.parseInt(spinnerEtasjer.getSelectedItem().toString()));
                     db.updateHus(etHus);
-                    startActivity(new Intent(EditHus.this, HusList.class));
-                    finish();
+                    onBackPressed();
                 }
+            }
+        });
+
+        btnAvbryt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
     }
