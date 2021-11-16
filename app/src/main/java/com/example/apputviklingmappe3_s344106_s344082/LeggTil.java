@@ -61,12 +61,16 @@ public class LeggTil extends AppCompatActivity {
         geocoder = new Geocoder(this, Locale.getDefault());
 
         if (getIntent().getExtras() != null){
-            cords = getIntent().getExtras().getParcelable("lat,long");try {
-            adresses = geocoder.getFromLocation(cords.latitude,cords.longitude,1);
+            cords = getIntent().getExtras().getParcelable("lat,long");
+            btnEditAddresse.setText(R.string.btnLeggTil);
+            try {
+                adresses = geocoder.getFromLocation(cords.latitude,cords.longitude,1);
                 editGateadresse.setText(adresses.get(0).getAddressLine(0));
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            btnEditAddresse.setText(R.string.btnLeggTil);
         }
 
 
