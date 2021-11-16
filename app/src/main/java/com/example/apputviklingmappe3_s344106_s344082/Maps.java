@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.text.Layout;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -46,6 +47,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     Geocoder geocoder;
     boolean alreadyMark;
     Marker markAdded;
+    static boolean edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +86,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
             System.out.println(hus);
             addMarker(hus);
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(59.91957,10.73556))); // Viser Pilestredet
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(59.91957, 10.73556))); // Viser Pilestredet
         mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -92,7 +94,6 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
             public void onInfoWindowClick(Marker marker) {
                 if (marker.getTitle().equals("Trykk her for å legge til hus")) {
                     Intent i = new Intent(Maps.this, LeggTil.class);
-                    System.out.println(marker.getPosition());
                     i.putExtra("lat,long", marker.getPosition());
                     startActivity(i);
                 }
@@ -114,7 +115,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
             @Override
             public void onMapClick(LatLng latLng) {
-                if(alreadyMark) {
+                if (alreadyMark) {
                     markAdded.remove();
                     alreadyMark = false;
                 }
@@ -131,16 +132,25 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                 } else {
                     MarkerOptions markerOptions = new MarkerOptions();
                     if ((latLng.latitude < 59.91910325593771 || latLng.latitude > 59.92291805910473)
-                             || (latLng.longitude < 10.73202922940254 || latLng.longitude > 10.738811194896696)) {
+                            || (latLng.longitude < 10.73202922940254 || latLng.longitude > 10.738811194896696)) {
                         Toast.makeText(Maps.this, "Adressen er ikke på OsloMet!", Toast.LENGTH_SHORT).show();
                     } else {
-                        markerOptions.position(latLng);
-                        markerOptions.title("Trykk her for å legge til hus");
-                        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                        markAdded = mMap.addMarker(markerOptions);
-                        markers.add(markAdded);
+                        if (edit) {
+                            Intent i = new Intent(Maps.this, LeggTil.class);
+                            i.putExtra("lat,long", latLng);
+                            System.out.println("Kommer inn i parce");
+                            startActivity(i);
+                        }
+                        else {
+                            markerOptions.position(latLng);
+                            System.out.println("Kommer ikke inn i parce");
+                            markerOptions.title("Trykk her for å legge til hus");
+                            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                            markAdded = mMap.addMarker(markerOptions);
+                            markers.add(markAdded);
+                            alreadyMark = true;
+                        }
                     }
-                    alreadyMark = true;
                 }
             }
 
@@ -150,8 +160,8 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
     private void addMarker(Hus hus) {
         LatLng location = new LatLng(Double.parseDouble(hus.getGps_lat()), Double.parseDouble(hus.getGps_long()));
-        MarkerOptions markerOp = new MarkerOptions().position(location).title(hus.gateadresse).snippet("Beskrivelse:"+hus.getBeskrivelse()+"\nKoordinater:"+hus.getGps_lat()+", "+hus.getGps_long()+"\nEtasjer:"+hus.getEtasjer());
-        Marker marker =  mMap.addMarker(markerOp);
+        MarkerOptions markerOp = new MarkerOptions().position(location).title(hus.gateadresse).snippet("Beskrivelse:" + hus.getBeskrivelse() + "\nKoordinater:" + hus.getGps_lat() + ", " + hus.getGps_long() + "\nEtasjer:" + hus.getEtasjer());
+        Marker marker = mMap.addMarker(markerOp);
         markers.add(marker);
     }
 
@@ -164,10 +174,11 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         public View getInfoWindow(Marker marker) {
             return null;
         }
+
         @Override
         public View getInfoContents(Marker marker) {
-            for(Marker mark : markers) {
-                if(marker.equals(mark)) {
+            for (Marker mark : markers) {
+                if (marker.equals(mark)) {
                     LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     view = inflater.inflate(R.layout.infowindow, null);
                     textTittel = ((TextView) view.findViewById(R.id.title));
