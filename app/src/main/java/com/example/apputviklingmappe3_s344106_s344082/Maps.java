@@ -175,8 +175,8 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         double lat = Double.parseDouble(hus.getGps_lat());
         double lng = Double.parseDouble(hus.getGps_long());
         LatLng location = new LatLng(lat, lng);
-        String strLat = new DecimalFormat("##.##").format(lat);
-        String strLng = new DecimalFormat("##.##").format(lng);
+        String strLat = new DecimalFormat("##.####").format(lat);
+        String strLng = new DecimalFormat("##.####").format(lng);
         MarkerOptions markerOp = new MarkerOptions().position(location).title(hus.gateadresse).snippet("Beskrivelse: " + hus.getBeskrivelse() + "\nKoordinater: " + strLat + ", " + strLng + "\nEtasjer: " + hus.getEtasjer());
         Marker marker = mMap.addMarker(markerOp);
         markers.add(marker);
