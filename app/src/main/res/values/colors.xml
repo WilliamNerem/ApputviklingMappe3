@@ -11,4 +11,5 @@
     <color name="edit_orange">#ffa500</color>
     <color name="yellow">#ffdc00</color>
     <color name="dark_yellow">#dec000</color>
+    <color name="gray">#f2f3f4</color>
 </resources>

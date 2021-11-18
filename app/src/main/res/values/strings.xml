@@ -4,6 +4,7 @@
     <string name="titleList">Liste over hus</string>
     <string name="titleEditHus">Endre hus</string>
     <string name="titleLeggTil">Legg til hus</string>
+    <string name="titleOptions">Valg</string>
     <string name="hintBeskrivelse">Skriv beskrivelse</string>
     <string name="hintGateadresse">Ingen addresse valgt</string>
     <string name="hintLatitude">Skriv inn latitude</string>
@@ -14,6 +15,7 @@
     <string name="btnAvbryt">Avbryt</string>
     <string name="btnVelgAddresse">Velg addresse</string>
     <string name="btnEndreAddresse">Endre addresse</string>
+    <string name="information">Hva vil du gjøre med huset?</string>
     <string-array name="etasjer">
         <item>Velg antall Etasjer</item>
         <item>1</item>
