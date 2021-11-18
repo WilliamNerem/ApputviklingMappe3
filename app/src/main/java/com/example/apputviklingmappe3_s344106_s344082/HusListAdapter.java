@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -43,9 +44,6 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
 
         View currentView = convertView;
 
-        ImageButton buttonEditHus = (ImageButton) convertView.findViewById(R.id.buttonEditHus);
-        ImageButton buttonDeleteHus = (ImageButton) convertView.findViewById(R.id.buttonDeleteHus);
-
         int id = getItem(position).get_ID();
 /*
         id = getItem(position).get_ID();
@@ -73,32 +71,6 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
         int etasjer = getItem(position).getEtasjer();
         String strEtasjer = String.valueOf(etasjer);
         tvEtasjer.setText(strEtasjer);
-
-
-        buttonEditHus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, EditHus.class);
-                intent.putExtra("id", id);
-                intent.putExtra("beskrivelse", beskrivelse);
-                intent.putExtra("gateadresse", gateadresse);
-                intent.putExtra("etasjer", etasjer);
-                intent.putExtra("lat,long", koordinater);
-                mContext.startActivity(intent);
-            }
-        });
-
-        buttonDeleteHus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db = new DBHandler(mContext);
-                db.deleteHus(id);
-                listHus.clear();
-                listHus.addAll(db.findAllHus());
-                notifyDataSetChanged();
-            }
-        });
-
         return convertView;
     }
 
