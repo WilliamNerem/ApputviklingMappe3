@@ -26,7 +26,7 @@ import java.util.Locale;
 
 public class EditHus extends AppCompatActivity {
     private DBHandler db;
-    private int id;
+    private static int id;
     private TextView tvTitle;
     private ImageView btnList;
     private ImageView btnBack;
@@ -49,7 +49,6 @@ public class EditHus extends AppCompatActivity {
         setContentView(R.layout.hus_form);
         db = new DBHandler(this);
 
-        id = getIntent().getExtras().getInt("id");
         String oldBeskrivelse = getIntent().getExtras().getString("beskrivelse");
         String oldGateadresse = getIntent().getExtras().getString("gateadresse");
         int oldEtasjer = getIntent().getExtras().getInt("etasjer");
@@ -77,9 +76,9 @@ public class EditHus extends AppCompatActivity {
 
         if(!(sendtBeskrivelseEdit.equals(""))) {
             editBeskrivelse.setText(sendtBeskrivelseEdit);
-        }
-        if (sendtEtasjerEdit != 0) {
             spinnerEtasjer.setSelection(sendtEtasjerEdit);
+        } else {
+            id = getIntent().getExtras().getInt("id");
         }
 
         geocoder = new Geocoder(this, Locale.getDefault());
@@ -124,6 +123,7 @@ public class EditHus extends AppCompatActivity {
                     sendtEtasjerEdit = Integer.parseInt(spinnerEtasjer.getSelectedItem().toString());
                 }
                 startActivity(i);
+                finish();
             }
         });
 
@@ -144,8 +144,8 @@ public class EditHus extends AppCompatActivity {
                     sendtEtasjerEdit = 0;
                     sendtBeskrivelseEdit = "";
                     Maps.editEdit = false;
-                    startActivity(new Intent(EditHus.this, HusList.class));
-                    finish();
+
+                    onBackPressed();
                 }
             }
         });

@@ -115,6 +115,7 @@ public class LeggTil extends AppCompatActivity {
                     sendtEtasjer = Integer.parseInt(spinnerEtasjer.getSelectedItem().toString());
                 }
                 startActivity(i);
+                finish();
             }
         });
 
@@ -133,6 +134,7 @@ public class LeggTil extends AppCompatActivity {
                     sendtBeskrivelse = "";
                     Maps.editLeggTil = false;
                     startActivity(new Intent(LeggTil.this, HusList.class));
+                    finish();
                 }
             }
         });

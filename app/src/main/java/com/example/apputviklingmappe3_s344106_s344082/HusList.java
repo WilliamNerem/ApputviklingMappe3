@@ -57,4 +57,11 @@ public class HusList extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        startActivity(new Intent(HusList.this, HusList.class));
+        finish();
+    }
+
 }

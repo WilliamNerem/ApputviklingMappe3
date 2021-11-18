@@ -147,11 +147,13 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                             Intent i = new Intent(Maps.this, LeggTil.class);
                             i.putExtra("lat,long", latLng);
                             startActivity(i);
+                            finish();
                         }
                         else if (editEdit) {
                             Intent i = new Intent(Maps.this, EditHus.class);
                             i.putExtra("lat,long", latLng);
                             startActivity(i);
+                            finish();
                         }
                         else {
                             markerOptions.position(latLng);
@@ -213,5 +215,12 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
             return null;
         }
 
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        startActivity(new Intent(Maps.this, Maps.class));
+        finish();
     }
 }
