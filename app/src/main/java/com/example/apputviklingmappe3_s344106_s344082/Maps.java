@@ -69,6 +69,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         btnList.setColorFilter(Color.rgb(0, 0, 0));
         System.out.println();
         markers = new ArrayList<>();
+        geocoder = new Geocoder(Maps.this, Locale.getDefault());
         buttons();
     }
 
@@ -122,12 +123,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                     alreadyMark = false;
                 }
                 newMark = new LatLng(latLng.latitude, latLng.longitude);
-                while (true) {
-                    if (Geocoder.isPresent()) {
-                        geocoder = new Geocoder(Maps.this, Locale.getDefault());
-                        break;
-                    }
-                }
+                geocoder = new Geocoder(Maps.this, Locale.getDefault());
                 try {
                         adresses = geocoder.getFromLocation(newMark.latitude, newMark.longitude, 1);
                     }
@@ -136,7 +132,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
                 }
                 if (adresses == null) {
-                    Toast.makeText(Maps.this, "Ikke en gyldig adresse!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Maps.this, "Wipe dataen på emulatoren og prøv igjen!", Toast.LENGTH_LONG).show();
                 } else {
                     MarkerOptions markerOptions = new MarkerOptions();
                     if ((latLng.latitude < 59.91910325593771 || latLng.latitude > 59.92291805910473)

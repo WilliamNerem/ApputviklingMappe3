@@ -141,4 +141,5 @@ public class HusListAdapter extends ArrayAdapter<Hus> {
             }
         });
     }
+
 }
