@@ -16,6 +16,9 @@
     <string name="btnVelgAddresse">Velg addresse</string>
     <string name="btnEndreAddresse">Endre addresse</string>
     <string name="information">Hva vil du gjøre med huset?</string>
+    <string name="listId">Id: </string>
+    <string name="listBeskrivelse">Beskrivelse: </string>
+    <string name="listEtasjer">Etasjer: </string>
     <string-array name="etasjer">
         <item>Velg antall Etasjer</item>
         <item>1</item>

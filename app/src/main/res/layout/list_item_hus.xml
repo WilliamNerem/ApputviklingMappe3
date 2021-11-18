@@ -28,11 +28,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:paddingTop="5dp"
-                android:paddingStart="8dp"
-                android:text="Addresse" />
+                android:paddingStart="8dp" />
 
         </LinearLayout>
 
@@ -53,14 +53,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
+                    android:layout_marginEnd="2dp"
                     android:textStyle="bold"
-                    android:text="id: "/>
+                    android:textColor="@color/black"
+                    android:text="@string/listId"/>
 
                 <TextView
                     android:id="@+id/itemHus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="67"/>
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -76,14 +78,15 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
                     android:textStyle="bold"
-                    android:text="Beskrivelse: "/>
+                    android:textColor="@color/black"
+                    android:text="@string/listBeskrivelse"/>
 
                 <TextView
                     android:id="@+id/itemHusBeskrivelse"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
-                    android:text="Prøver p sdgfbdujsdbvafib fsda dfs sdfasd fasdfasdf ds" />
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 
@@ -97,15 +100,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
-                    android:text="Etasjer: "
+                    android:layout_marginEnd="2dp"
+                    android:text="@string/listEtasjer"
                     android:textStyle="bold"
+                    android:textColor="@color/black"
                     android:gravity="center" />
 
                 <TextView
                     android:id="@+id/itemHusEtasjer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="14"
+                    android:textColor="@color/black"
                     android:gravity="center" />
 
             </LinearLayout>
