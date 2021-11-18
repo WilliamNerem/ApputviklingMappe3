@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,13 +18,9 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.List;
 
 public class HusList extends AppCompatActivity {
-    private TextView tvTitle;
-    private ImageView btnAdd;
-    private ImageView btnBack;
-    private ImageView btnList;
     private ListView listView;
-    private Button buttonEdit;
-    private Button buttonSlett;
+    private ImageView btnBack;
+    private ImageView btnAdd;
     private DBHandler db;
     private List<Hus> husList;
     private int husID;
@@ -40,12 +35,12 @@ public class HusList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hus_list);
 
-        tvTitle = (TextView) findViewById(R.id.title);
-        tvTitle.setText(R.string.titleList);
         listView = (ListView) findViewById(R.id.list_view_hus);
         btnAdd = (ImageView) findViewById(R.id.add);
         btnBack = (ImageView) findViewById(R.id.back);
-        btnList = (ImageView) findViewById(R.id.list);
+        TextView tvTitle = (TextView) findViewById(R.id.title);
+        tvTitle.setText(R.string.titleList);
+        ImageView btnList = (ImageView) findViewById(R.id.list);
         btnList.setVisibility(View.INVISIBLE);
 
         db = new DBHandler(this);
@@ -55,9 +50,7 @@ public class HusList extends AppCompatActivity {
         listView.setAdapter(adapter);
         listView.setLongClickable(true);
 
-
         button();
-
 
     }
 
@@ -89,14 +82,11 @@ public class HusList extends AppCompatActivity {
                 husEtasjer = ethus.getEtasjer();
                 AlertDialog created = buildAlertDialog(view, newid);
                 created.show();
-                popupStart();
                 return true;
             }
         });
     }
 
-    private void popupStart() {
-    }
 
     private AlertDialog buildAlertDialog(View view, int id){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(view.getContext());
@@ -107,8 +97,8 @@ public class HusList extends AppCompatActivity {
 
 
         alertDialog.setView(alertConvertView);
-        buttonEdit = (Button) alertConvertView.findViewById(R.id.buttonEdit);
-        buttonSlett = (Button) alertConvertView.findViewById(R.id.buttonSlett);
+        Button buttonEdit = (Button) alertConvertView.findViewById(R.id.buttonEdit);
+        Button buttonSlett = (Button) alertConvertView.findViewById(R.id.buttonSlett);
 
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override

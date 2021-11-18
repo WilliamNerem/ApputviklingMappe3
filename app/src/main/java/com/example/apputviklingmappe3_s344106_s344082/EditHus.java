@@ -27,10 +27,8 @@ import java.util.Locale;
 public class EditHus extends AppCompatActivity {
     private DBHandler db;
     private static int id;
-    private TextView tvTitle;
     private ImageView btnList;
     private ImageView btnBack;
-    private ImageView btnAdd;
     private Button btn;
     private Button btnAvbryt;
     private Button btnEditAddresse;
@@ -50,29 +48,27 @@ public class EditHus extends AppCompatActivity {
         db = new DBHandler(this);
 
         String oldBeskrivelse = getIntent().getExtras().getString("beskrivelse");
-        String oldGateadresse = getIntent().getExtras().getString("gateadresse");
         int oldEtasjer = getIntent().getExtras().getInt("etasjer");
 
-        tvTitle = (TextView) findViewById(R.id.title);
+        TextView tvTitle = (TextView) findViewById(R.id.title);
         tvTitle.setText(R.string.titleEditHus);
         btnList = (ImageView) findViewById(R.id.list);
         btnList.setVisibility(View.INVISIBLE);
         btnBack = (ImageView) findViewById(R.id.back);
-        btnAdd = (ImageView) findViewById(R.id.add);
+        ImageView btnAdd = (ImageView) findViewById(R.id.add);
         btnAdd.setVisibility(View.INVISIBLE);
+
         btn = (Button) findViewById(R.id.btnContinue);
         btn.setText(R.string.btnEndre);
         btnAvbryt = (Button) findViewById(R.id.btnAvbryt);
         btnEditAddresse = (Button) findViewById(R.id.editAddresse);
+
         editBeskrivelse = findViewById(R.id.beskrivelse);
         editBeskrivelse.setText(oldBeskrivelse);
         tvGateadresse = findViewById(R.id.gateadresse);
         spinnerEtasjer = findViewById(R.id.etasjer);
         setSpinner();
         spinnerEtasjer.setSelection(oldEtasjer);
-
-        System.out.println("Bes: " + sendtBeskrivelseEdit);
-        System.out.println("Eta: " + sendtEtasjerEdit);
 
         if(!(sendtBeskrivelseEdit.equals(""))) {
             editBeskrivelse.setText(sendtBeskrivelseEdit);
@@ -131,7 +127,6 @@ public class EditHus extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validation()){
-                    //LatLng cords = getIntent().getExtras().getParcelable("lat,long");
                     Hus etHus = new Hus();
                     etHus.set_ID(id);
                     etHus.setBeskrivelse(editBeskrivelse.getText().toString());
