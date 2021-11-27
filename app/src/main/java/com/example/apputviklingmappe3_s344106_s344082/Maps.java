@@ -137,12 +137,10 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                 }
                  if(adresses != null) {
                     MarkerOptions markerOptions = new MarkerOptions();
-                    /*if ((latLng.latitude < 59.91910325593771 || latLng.latitude > 59.92291805910473)
+                    if ((latLng.latitude < 59.91910325593771 || latLng.latitude > 59.92291805910473)
                             || (latLng.longitude < 10.73202922940254 || latLng.longitude > 10.738811194896696)) {
                         Toast.makeText(Maps.this, "Adressen er ikke på OsloMet!", Toast.LENGTH_SHORT).show();
                     } else {
-
-                     */
                         if (editLeggTil) {
                             Intent i = new Intent(Maps.this, LeggTil.class);
                             i.putExtra("lat,long", latLng);
@@ -165,7 +163,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                         }
                     }
                 }
-           // }
+           }
 
         });
 
