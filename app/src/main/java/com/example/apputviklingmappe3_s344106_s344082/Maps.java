@@ -99,6 +99,13 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                     Intent i = new Intent(Maps.this, LeggTil.class);
                     i.putExtra("lat,long", marker.getPosition());
                     startActivity(i);
+                } else {
+                    System.out.println(marker.getId());
+                    List<Hus> husArray = db.findAllHus();
+                    int id = Integer.parseInt(marker.getId().substring(1));
+                    Hus hus = husArray.get(id);
+                    LatLng husKoordinater = new LatLng(Double.parseDouble(hus.getGps_lat()), Double.parseDouble(hus.getGps_long()));
+                    EditDeletePopup.buildAlertDialog(getWindow().getDecorView().getRootView(), hus._ID, hus.beskrivelse, hus.gateadresse, hus.etasjer, husKoordinater, "maps");
                 }
             }
         });

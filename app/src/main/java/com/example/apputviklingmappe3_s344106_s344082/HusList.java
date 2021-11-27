@@ -79,57 +79,9 @@ public class HusList extends AppCompatActivity {
                 husAdresse = ethus.getGateadresse();
                 husKoordinater = new LatLng(Double.parseDouble(ethus.getGps_lat()), Double.parseDouble(ethus.getGps_long()));
                 husEtasjer = ethus.getEtasjer();
-                AlertDialog created = buildAlertDialog(view, newid);
-                created.show();
+                EditDeletePopup.buildAlertDialog(view, husID, husBeskrivelse, husAdresse, husEtasjer, husKoordinater, "husList");
             }
         });
     }
-
-
-    private AlertDialog buildAlertDialog(View view, int id){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(view.getContext());
-        alertDialog.setView(R.layout.alert_popup);
-
-        LayoutInflater alertInflater = LayoutInflater.from(view.getContext());
-        View alertConvertView = alertInflater.inflate(R.layout.alert_popup, null);
-
-
-        alertDialog.setView(alertConvertView);
-        Button buttonEdit = (Button) alertConvertView.findViewById(R.id.buttonEdit);
-        Button buttonSlett = (Button) alertConvertView.findViewById(R.id.buttonSlett);
-
-        buttonEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HusList.this, EditHus.class);
-                intent.putExtra("id", husID);
-                intent.putExtra("beskrivelse", husBeskrivelse);
-                intent.putExtra("gateadresse", husAdresse);
-                intent.putExtra("etasjer", husEtasjer);
-                intent.putExtra("lat,long", husKoordinater);
-                startActivity(intent);
-            }
-        });
-
-        buttonSlett.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db = new DBHandler(HusList.this);
-                db.deleteHus(husID);
-                onRestart();
-            }
-        });
-
-        return alertDialog.create();
-
-    }
-
-    @Override
-    public void onRestart() {
-        super.onRestart();
-        startActivity(new Intent(HusList.this, HusList.class));
-        finish();
-    }
-
 
 }

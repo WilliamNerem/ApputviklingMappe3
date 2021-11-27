@@ -135,7 +135,6 @@ public class EditHus extends AppCompatActivity {
                     etHus.setGps_long(Double.toString(cords.longitude));
                     etHus.setEtasjer(Integer.parseInt(spinnerEtasjer.getSelectedItem().toString()));
                     db.updateHus(etHus);
-                    onBackPressed();
                     sendtEtasjerEdit = 0;
                     sendtBeskrivelseEdit = "";
                     Maps.editEdit = false;
@@ -204,6 +203,13 @@ public class EditHus extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        startActivity(new Intent(EditHus.this, HusList.class));
+        finish();
     }
 
 }
