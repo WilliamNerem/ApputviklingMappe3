@@ -20,7 +20,8 @@
         </activity>
         <activity
             android:name="com.example.apputviklingmappe3_s344106_s344082.Maps"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +30,8 @@
         </activity>
         <activity
             android:name="com.example.apputviklingmappe3_s344106_s344082.HusList"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="orientation|screenSize">
         </activity>
         <activity
             android:name="com.example.apputviklingmappe3_s344106_s344082.LeggTil"
