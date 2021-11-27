@@ -22,7 +22,6 @@ public class EditDeletePopup extends AppCompatActivity {
         Button buttonEdit = (Button) alertConvertView.findViewById(R.id.buttonEdit);
         Button buttonSlett = (Button) alertConvertView.findViewById(R.id.buttonSlett);
 
-        AlertDialog dialog = alertDialog.create();
 
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +51,7 @@ public class EditDeletePopup extends AppCompatActivity {
             public void onClick(View view) {
                 DBHandler db = new DBHandler(view.getContext());
                 db.deleteHus(husID);
+                AlertDialog dialog = alertDialog.create();
                 dialog.dismiss();
                 if (redirect.equals("husList")){
                     view.getContext().startActivity(new Intent(view.getContext(), HusList.class));
