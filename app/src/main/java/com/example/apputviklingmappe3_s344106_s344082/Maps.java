@@ -1,5 +1,6 @@
 package com.example.apputviklingmappe3_s344106_s344082;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -100,12 +101,14 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                     i.putExtra("lat,long", marker.getPosition());
                     startActivity(i);
                 } else {
-                    System.out.println(marker.getId());
-                    List<Hus> husArray = db.findAllHus();
-                    int id = Integer.parseInt(marker.getId().substring(1));
-                    Hus hus = husArray.get(id);
-                    LatLng husKoordinater = new LatLng(Double.parseDouble(hus.getGps_lat()), Double.parseDouble(hus.getGps_long()));
-                    EditDeletePopup.buildAlertDialog(getWindow().getDecorView().getRootView(), hus._ID, hus.beskrivelse, hus.gateadresse, hus.etasjer, husKoordinater, "maps");
+                    if (!editEdit && !editLeggTil) {
+                        List<Hus> husArray = db.findAllHus();
+                        int id = Integer.parseInt(marker.getId().substring(1));
+                        Hus hus = husArray.get(id);
+                        LatLng husKoordinater = new LatLng(Double.parseDouble(hus.getGps_lat()), Double.parseDouble(hus.getGps_long()));
+                        AlertDialog al = EditDeletePopup.buildAlertDialog(getWindow().getDecorView().getRootView(), hus._ID, hus.beskrivelse, hus.gateadresse, hus.etasjer, husKoordinater, "maps");
+                        al.show();
+                    }
                 }
             }
         });
@@ -151,14 +154,12 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                         if (editLeggTil) {
                             Intent i = new Intent(Maps.this, LeggTil.class);
                             i.putExtra("lat,long", latLng);
-                            startActivity(i);
-                            finish();
+                            onBackPressed();
                         }
                         else if (editEdit) {
                             Intent i = new Intent(Maps.this, EditHus.class);
                             i.putExtra("lat,long", latLng);
-                            startActivity(i);
-                            finish();
+                            onBackPressed();
                         }
                         else {
                             markerOptions.position(latLng);

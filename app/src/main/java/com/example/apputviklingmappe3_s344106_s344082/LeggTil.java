@@ -56,7 +56,7 @@ public class LeggTil extends AppCompatActivity {
         spinnerEtasjer = findViewById(R.id.etasjer);
         setSpinner();
 
-        if(!(sendtBeskrivelse.equals(""))) {
+        if(!(sendtBeskrivelse.equals("")) || !(sendtEtasjer == 0)) {
             editBeskrivelse.setText(sendtBeskrivelse);
             spinnerEtasjer.setSelection(sendtEtasjer);
         }
@@ -98,7 +98,6 @@ public class LeggTil extends AppCompatActivity {
                     sendtEtasjer = Integer.parseInt(spinnerEtasjer.getSelectedItem().toString());
                 }
                 startActivity(i);
-                finish();
             }
         });
 
@@ -120,6 +119,8 @@ public class LeggTil extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Maps.editLeggTil = false;
+                sendtBeskrivelse = "";
+                sendtEtasjer = 0;
                 onBackPressed();
             }
         });

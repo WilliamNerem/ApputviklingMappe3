@@ -24,7 +24,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class DBHandler extends SQLiteOpenHelper {
-    static int DATABASE_VERSION = 2;
+    static int DATABASE_VERSION = 3;
     static String DATABASE_NAME = "studdb5";
     static String TABLE_HUS = "Hus";
     static String HUS_KEY_ID = "id";

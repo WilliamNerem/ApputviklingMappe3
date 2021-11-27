@@ -79,7 +79,8 @@ public class HusList extends AppCompatActivity {
                 husAdresse = ethus.getGateadresse();
                 husKoordinater = new LatLng(Double.parseDouble(ethus.getGps_lat()), Double.parseDouble(ethus.getGps_long()));
                 husEtasjer = ethus.getEtasjer();
-                EditDeletePopup.buildAlertDialog(view, husID, husBeskrivelse, husAdresse, husEtasjer, husKoordinater, "husList");
+                AlertDialog al = EditDeletePopup.buildAlertDialog(view, husID, husBeskrivelse, husAdresse, husEtasjer, husKoordinater, "husList");
+                al.show();
             }
         });
     }

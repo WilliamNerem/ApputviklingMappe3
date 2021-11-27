@@ -38,6 +38,9 @@ public class EditHus extends AppCompatActivity {
     public List<Address> adresses;
     public static String sendtBeskrivelseEdit = "";
     public static int sendtEtasjerEdit = 0;
+    private static String origin;
+    private String oldBeskrivelse;
+    private int oldEtasjer;
     Geocoder geocoder;
     LatLng cords;
 
@@ -47,9 +50,12 @@ public class EditHus extends AppCompatActivity {
         setContentView(R.layout.hus_form);
         db = new DBHandler(this);
 
-        String oldBeskrivelse = getIntent().getExtras().getString("beskrivelse");
-        int oldEtasjer = getIntent().getExtras().getInt("etasjer");
+        oldBeskrivelse = getIntent().getExtras().getString("beskrivelse");
+        oldEtasjer = getIntent().getExtras().getInt("etasjer");
 
+        if (getIntent().getExtras().getString("origin") != null){
+            origin = getIntent().getExtras().getString("origin");
+        }
         TextView tvTitle = (TextView) findViewById(R.id.title);
         tvTitle.setText(R.string.titleEditHus);
         btnList = (ImageView) findViewById(R.id.list);
@@ -70,7 +76,7 @@ public class EditHus extends AppCompatActivity {
         setSpinner();
         spinnerEtasjer.setSelection(oldEtasjer);
 
-        if(!(sendtBeskrivelseEdit.equals(""))) {
+        if(!(sendtBeskrivelseEdit.equals("")) || !(sendtEtasjerEdit == 0)) {
             editBeskrivelse.setText(sendtBeskrivelseEdit);
             spinnerEtasjer.setSelection(sendtEtasjerEdit);
         } else {
@@ -118,8 +124,8 @@ public class EditHus extends AppCompatActivity {
                 if(!(spinnerEtasjer.getSelectedItem().toString().equals("Velg antall Etasjer"))) {
                     sendtEtasjerEdit = Integer.parseInt(spinnerEtasjer.getSelectedItem().toString());
                 }
+
                 startActivity(i);
-                finish();
             }
         });
 
@@ -140,6 +146,8 @@ public class EditHus extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Maps.editEdit = false;
+                sendtBeskrivelseEdit = "";
+                sendtEtasjerEdit = 0;
                 onBackPressed();
             }
         });
@@ -180,8 +188,27 @@ public class EditHus extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        startActivity(new Intent(EditHus.this, HusList.class));
+        if (!origin.equals("maps")) {
+            startActivity(new Intent(EditHus.this, HusList.class));
+        }
         finish();
     }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        if (Maps.editEdit){
+            System.out.println("Kommer til denne driten!!!!!!!!!!!");
+            Maps.editEdit = false;
+            Intent intent = new Intent(EditHus.this, EditHus.class);
+            intent.putExtra("origin", "list");
+            intent.putExtra("beskrivelse", oldBeskrivelse);
+            intent.putExtra("lat,long", oldEtasjer);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+
 
 }
