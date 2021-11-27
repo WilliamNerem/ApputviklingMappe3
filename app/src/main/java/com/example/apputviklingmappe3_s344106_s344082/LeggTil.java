@@ -1,6 +1,5 @@
 package com.example.apputviklingmappe3_s344106_s344082;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
@@ -13,17 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.maps.model.LatLng;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,7 +41,6 @@ public class LeggTil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hus_form);
         db = new DBHandler(this);
-
         TextView tvTitle = (TextView) findViewById(R.id.title);
         tvTitle.setText(R.string.titleLeggTil);
         btnList = (ImageView) findViewById(R.id.list);
@@ -87,13 +79,6 @@ public class LeggTil extends AppCompatActivity {
     }
 
     private void button(){
-        btnList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
