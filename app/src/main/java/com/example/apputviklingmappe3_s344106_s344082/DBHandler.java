@@ -76,7 +76,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void deleteHus(int in_id) {
         getJSON task = new getJSON();
-        System.out.println(in_id);
         String[] params = {"http://studdata.cs.oslomet.no/~dbuser5/www/deleteHus.php?id=" + in_id, "GET"};
         task.execute(params);
     }
@@ -137,7 +136,6 @@ public class DBHandler extends SQLiteOpenHelper {
                     if (urls[1].equals("POST")){
                         conn.setDoOutput(true);
                         try(OutputStream os = conn.getOutputStream()) {
-                            System.out.println(urls[2]);
                             byte[] input = urls[2].getBytes(StandardCharsets.UTF_8);
                             os.write(input, 0, input.length);
                         }
@@ -148,7 +146,6 @@ public class DBHandler extends SQLiteOpenHelper {
                     }
                     BufferedReader br = new BufferedReader(new InputStreamReader(
                             (conn.getInputStream())));
-                    System.out.println("Output from Server .... \n");
                     while ((s = br.readLine()) != null) {
                         output = output + s;
                     }
@@ -186,7 +183,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
         @Override
         protected void onPostExecute(ArrayList<Hus> hus) {
-            System.out.println("Kommer hit!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             allHus = hus;
         }
     }

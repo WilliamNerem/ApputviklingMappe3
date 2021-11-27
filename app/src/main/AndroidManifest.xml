@@ -14,11 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ApputviklingMappe3">
         <activity
-            android:name="com.example.apputviklingmappe3_s344106_s344082.MainActivity"
-            android:exported="true">
-
-        </activity>
-        <activity
             android:name="com.example.apputviklingmappe3_s344106_s344082.Maps"
             android:exported="true"
             android:configChanges="orientation|screenSize">

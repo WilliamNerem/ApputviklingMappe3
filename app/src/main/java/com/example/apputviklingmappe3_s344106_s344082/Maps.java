@@ -59,7 +59,6 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         btnBack.setVisibility(View.INVISIBLE);
         btnList = (ImageView) findViewById(R.id.list);
         btnList.setColorFilter(Color.rgb(0, 0, 0));
-        System.out.println();
         markers = new ArrayList<>();
         geocoder = new Geocoder(Maps.this, Locale.getDefault());
         buttons();
@@ -78,7 +77,6 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         for (Hus hus : alleHus) {
-            System.out.println(hus);
             addMarker(hus);
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(59.91957, 10.73556))); // Viser Pilestredet
