@@ -3,18 +3,13 @@ package com.example.apputviklingmappe3_s344106_s344082;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.maps.model.LatLng;
-
 import java.util.List;
 
 public class HusList extends AppCompatActivity {

@@ -14,12 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.maps.model.LatLng;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -39,8 +35,6 @@ public class EditHus extends AppCompatActivity {
     public static String sendtBeskrivelseEdit = "";
     public static int sendtEtasjerEdit = 0;
     private static String origin;
-    private String oldBeskrivelse;
-    private int oldEtasjer;
     public static LatLng latLng;
     Geocoder geocoder;
     LatLng cords;
@@ -51,8 +45,8 @@ public class EditHus extends AppCompatActivity {
         setContentView(R.layout.hus_form);
         db = new DBHandler(this);
 
-        oldBeskrivelse = getIntent().getExtras().getString("beskrivelse");
-        oldEtasjer = getIntent().getExtras().getInt("etasjer");
+        String oldBeskrivelse = getIntent().getExtras().getString("beskrivelse");
+        int oldEtasjer = getIntent().getExtras().getInt("etasjer");
 
         if (getIntent().getExtras().getString("origin") != null){
             origin = getIntent().getExtras().getString("origin");
