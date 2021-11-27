@@ -152,13 +152,11 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                         Toast.makeText(Maps.this, "Adressen er ikke på OsloMet!", Toast.LENGTH_SHORT).show();
                     } else {
                         if (editLeggTil) {
-                            Intent i = new Intent(Maps.this, LeggTil.class);
-                            i.putExtra("lat,long", latLng);
+                            LeggTil.latLng = latLng;
                             onBackPressed();
                         }
                         else if (editEdit) {
-                            Intent i = new Intent(Maps.this, EditHus.class);
-                            i.putExtra("lat,long", latLng);
+                            EditHus.latLng = latLng;
                             onBackPressed();
                         }
                         else {

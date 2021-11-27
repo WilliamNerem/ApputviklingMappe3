@@ -41,6 +41,7 @@ public class EditHus extends AppCompatActivity {
     private static String origin;
     private String oldBeskrivelse;
     private int oldEtasjer;
+    public static LatLng latLng;
     Geocoder geocoder;
     LatLng cords;
 
@@ -198,12 +199,13 @@ public class EditHus extends AppCompatActivity {
     public void onRestart(){
         super.onRestart();
         if (Maps.editEdit){
-            System.out.println("Kommer til denne driten!!!!!!!!!!!");
             Maps.editEdit = false;
             Intent intent = new Intent(EditHus.this, EditHus.class);
-            intent.putExtra("origin", "list");
-            intent.putExtra("beskrivelse", oldBeskrivelse);
-            intent.putExtra("lat,long", oldEtasjer);
+            if (latLng == null){
+                intent.putExtra("lat,long", cords);
+            } else {
+                intent.putExtra("lat,long", latLng);
+            }
             startActivity(intent);
             finish();
         }
