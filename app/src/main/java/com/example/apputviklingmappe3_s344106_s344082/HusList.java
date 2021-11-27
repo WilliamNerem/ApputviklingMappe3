@@ -48,7 +48,6 @@ public class HusList extends AppCompatActivity {
 
         HusListAdapter adapter = new HusListAdapter(this, R.layout.list_item_hus, husList);
         listView.setAdapter(adapter);
-        listView.setLongClickable(true);
 
         button();
 
@@ -70,9 +69,9 @@ public class HusList extends AppCompatActivity {
             }
         });
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int newid = (int) id;
                 Hus ethus = husList.get(newid);
                 husID = ethus.get_ID();
@@ -82,7 +81,6 @@ public class HusList extends AppCompatActivity {
                 husEtasjer = ethus.getEtasjer();
                 AlertDialog created = buildAlertDialog(view, newid);
                 created.show();
-                return true;
             }
         });
     }
