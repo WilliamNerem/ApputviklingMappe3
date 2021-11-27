@@ -133,14 +133,16 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                 geocoder = new Geocoder(Maps.this, Locale.getDefault());
                 try {
                         adresses = geocoder.getFromLocation(newMark.latitude, newMark.longitude, 1);
+                        if(adresses.size() == 0) {
+                            Toast.makeText(Maps.this, "Ugyldig adresse", Toast.LENGTH_LONG).show();
+                            return;
+                        }
                     }
                 catch (IOException e) {
-                    Toast.makeText(Maps.this, "Geocoder er nede!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Maps.this, "Geocoder er nede! Wipe dataen på emulatoren og prøv igjen!", Toast.LENGTH_LONG).show();
 
                 }
-                if (adresses == null) {
-                    Toast.makeText(Maps.this, "Wipe dataen på emulatoren og prøv igjen!", Toast.LENGTH_LONG).show();
-                } else {
+                 if(adresses != null) {
                     MarkerOptions markerOptions = new MarkerOptions();
                     if ((latLng.latitude < 59.91910325593771 || latLng.latitude > 59.92291805910473)
                             || (latLng.longitude < 10.73202922940254 || latLng.longitude > 10.738811194896696)) {
@@ -168,7 +170,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                         }
                     }
                 }
-            }
+           }
 
         });
 
