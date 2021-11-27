@@ -126,19 +126,11 @@ public class EditHus extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validation()){
-                    Hus etHus = new Hus();
-                    etHus.set_ID(id);
-                    etHus.setBeskrivelse(editBeskrivelse.getText().toString());
-                    etHus.setGateadresse(tvGateadresse.getText().toString());
-                    etHus.setGps_lat(Double.toString(cords.latitude));
-                    etHus.setGps_long(Double.toString(cords.longitude));
-                    etHus.setEtasjer(Integer.parseInt(spinnerEtasjer.getSelectedItem().toString()));
-                    db.updateHus(etHus);
+                if (Form.validation(getBaseContext(), editBeskrivelse, tvGateadresse, spinnerEtasjer)){
+                    db.updateHus(Form.sethus(id, editBeskrivelse, tvGateadresse, cords, spinnerEtasjer, "edit"));
                     sendtEtasjerEdit = 0;
                     sendtBeskrivelseEdit = "";
                     Maps.editEdit = false;
-
                     onBackPressed();
                 }
             }
@@ -153,18 +145,6 @@ public class EditHus extends AppCompatActivity {
         });
     }
 
-    private boolean validation(){
-        String strBeskrivelse = editBeskrivelse.getText().toString();
-        String strGateaddresse = tvGateadresse.getText().toString();
-        String strEtasjer = spinnerEtasjer.getSelectedItem().toString();
-
-        if (strBeskrivelse.equals("") || strGateaddresse.equals("") || strEtasjer.equals("Velg antall Etasjer")){
-            Toast.makeText(getBaseContext(),"Alle felt må fylles ut", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
-
     private void setSpinner() {
         String[] items = getResources().getStringArray(R.array.etasjer);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, items) {
@@ -174,16 +154,8 @@ public class EditHus extends AppCompatActivity {
             }
 
             @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                if (position == 0) {
-                    tv.setTextColor(Color.GRAY);
-                } else {
-                    tv.setTextColor(Color.BLACK);
-                }
-                return view;
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                return super.getDropDownView(position, convertView, parent);
             }
         };
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -193,7 +165,7 @@ public class EditHus extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv = (TextView) view;
-                if (position == 0) {
+                if (position == 0 && tv != null) {
                     tv.setTextColor(Color.GRAY);
                 }
             }

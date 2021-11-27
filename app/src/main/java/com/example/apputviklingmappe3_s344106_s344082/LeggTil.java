@@ -29,10 +29,8 @@ import java.util.Locale;
 
 public class LeggTil extends AppCompatActivity {
     private DBHandler db;
-    private TextView tvTitle;
     private ImageView btnList;
     private ImageView btnBack;
-    private ImageView btnAdd;
     private Button btn;
     private Button btnAvbryt;
     private Button btnEditAddresse;
@@ -50,26 +48,26 @@ public class LeggTil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hus_form);
         db = new DBHandler(this);
-        tvTitle = (TextView) findViewById(R.id.title);
+
+        TextView tvTitle = (TextView) findViewById(R.id.title);
         tvTitle.setText(R.string.titleLeggTil);
         btnList = (ImageView) findViewById(R.id.list);
         btnList.setVisibility(View.INVISIBLE);
         btnBack = (ImageView) findViewById(R.id.back);
-        btnAdd = (ImageView) findViewById(R.id.add);
+        ImageView btnAdd = (ImageView) findViewById(R.id.add);
         btnAdd.setVisibility(View.INVISIBLE);
         btn = (Button) findViewById(R.id.btnContinue);
         btnAvbryt = (Button) findViewById(R.id.btnAvbryt);
         btnEditAddresse = (Button) findViewById(R.id.editAddresse);
         editBeskrivelse = findViewById(R.id.beskrivelse);
+        editGateadresse = findViewById(R.id.gateadresse);
         spinnerEtasjer = findViewById(R.id.etasjer);
         setSpinner();
+
         if(!(sendtBeskrivelse.equals(""))) {
             editBeskrivelse.setText(sendtBeskrivelse);
-        }
-        if (sendtEtasjer != 0) {
             spinnerEtasjer.setSelection(sendtEtasjer);
         }
-        editGateadresse = findViewById(R.id.gateadresse);
         geocoder = new Geocoder(this, Locale.getDefault());
         cords = null;
         editGateadresse.setText("");
@@ -78,14 +76,9 @@ public class LeggTil extends AppCompatActivity {
             btnEditAddresse.setText(R.string.btnEndreAddresse);
             try {
                 adresses = geocoder.getFromLocation(cords.latitude,cords.longitude,1);
-                if(adresses.size() > 0) {
-                    editGateadresse.setText(adresses.get(0).getAddressLine(0));
-                }
-                else {
-                    System.out.println("Hey ugyldig!");
-                }
+                editGateadresse.setText(adresses.get(0).getAddressLine(0));
             } catch (IOException e) {
-                System.out.println(adresses.get(0).toString()+"Ugyldig adresse");
+                e.printStackTrace();
             }
         } else {
             btnEditAddresse.setText(R.string.btnVelgAddresse);
@@ -127,14 +120,8 @@ public class LeggTil extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validation()){
-                    Hus hus = new Hus();
-                    hus.setBeskrivelse(editBeskrivelse.getText().toString());
-                    hus.setGateadresse(editGateadresse.getText().toString());
-                    hus.setGps_lat(Double.toString(cords.latitude));
-                    hus.setGps_long(Double.toString(cords.longitude));
-                    hus.setEtasjer(Integer.parseInt(spinnerEtasjer.getSelectedItem().toString()));
-                    db.addHus(hus);
+                if (Form.validation(getBaseContext(), editBeskrivelse, editGateadresse, spinnerEtasjer)){
+                    db.addHus(Form.sethus(0, editBeskrivelse, editGateadresse, cords, spinnerEtasjer, "add"));
                     sendtEtasjer = 0;
                     sendtBeskrivelse = "";
                     Maps.editLeggTil = false;
@@ -147,21 +134,10 @@ public class LeggTil extends AppCompatActivity {
         btnAvbryt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Maps.editLeggTil = false;
                 onBackPressed();
             }
         });
-    }
-
-    private boolean validation(){
-        String strBeskrivelse = editBeskrivelse.getText().toString();
-        String strGateaddresse = editGateadresse.getText().toString();
-        String strEtasjer = spinnerEtasjer.getSelectedItem().toString();
-
-        if (strBeskrivelse.equals("") || strGateaddresse.equals("") || strEtasjer.equals("Velg antall Etasjer")){
-            Toast.makeText(getBaseContext(),"Alle felt må fylles ut", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
     }
 
     private void setSpinner() {
