@@ -78,9 +78,14 @@ public class LeggTil extends AppCompatActivity {
             btnEditAddresse.setText(R.string.btnEndreAddresse);
             try {
                 adresses = geocoder.getFromLocation(cords.latitude,cords.longitude,1);
-                editGateadresse.setText(adresses.get(0).getAddressLine(0));
+                if(adresses.size() > 0) {
+                    editGateadresse.setText(adresses.get(0).getAddressLine(0));
+                }
+                else {
+                    System.out.println("Hey ugyldig!");
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(adresses.get(0).toString()+"Ugyldig adresse");
             }
         } else {
             btnEditAddresse.setText(R.string.btnVelgAddresse);
