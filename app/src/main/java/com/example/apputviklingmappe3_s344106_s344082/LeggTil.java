@@ -33,6 +33,7 @@ public class LeggTil extends AppCompatActivity {
     public List<Address> adresses;
     public static String sendtBeskrivelse = "";
     public static int sendtEtasjer = 0;
+    public static LatLng latLng;
     Geocoder geocoder;
     LatLng cords;
 
@@ -156,6 +157,22 @@ public class LeggTil extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        if (Maps.editLeggTil){
+            Maps.editLeggTil = false;
+            Intent intent = new Intent(LeggTil.this, LeggTil.class);
+            if (latLng == null){
+                intent.putExtra("lat,long", cords);
+            } else {
+                intent.putExtra("lat,long", latLng);
+            }
+            startActivity(intent);
+            finish();
+        }
     }
 
 }

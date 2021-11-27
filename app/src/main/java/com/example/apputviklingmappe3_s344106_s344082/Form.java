@@ -1,20 +1,12 @@
 package com.example.apputviklingmappe3_s344106_s344082;
 
 import android.content.Context;
-import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.maps.model.LatLng;
-
-import java.io.IOException;
-import java.util.List;
 
 public class Form extends AppCompatActivity {
 

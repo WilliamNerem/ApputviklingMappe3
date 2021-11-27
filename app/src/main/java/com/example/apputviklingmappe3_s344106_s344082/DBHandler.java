@@ -1,17 +1,13 @@
 package com.example.apputviklingmappe3_s344106_s344082;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -21,7 +17,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 public class DBHandler extends SQLiteOpenHelper {
     static int DATABASE_VERSION = 3;
@@ -81,7 +76,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void deleteHus(int in_id) {
         getJSON task = new getJSON();
-        System.out.println(in_id);
         String[] params = {"http://studdata.cs.oslomet.no/~dbuser5/www/deleteHus.php?id=" + in_id, "GET"};
         task.execute(params);
     }
@@ -142,7 +136,6 @@ public class DBHandler extends SQLiteOpenHelper {
                     if (urls[1].equals("POST")){
                         conn.setDoOutput(true);
                         try(OutputStream os = conn.getOutputStream()) {
-                            System.out.println(urls[2]);
                             byte[] input = urls[2].getBytes(StandardCharsets.UTF_8);
                             os.write(input, 0, input.length);
                         }
@@ -153,7 +146,6 @@ public class DBHandler extends SQLiteOpenHelper {
                     }
                     BufferedReader br = new BufferedReader(new InputStreamReader(
                             (conn.getInputStream())));
-                    System.out.println("Output from Server .... \n");
                     while ((s = br.readLine()) != null) {
                         output = output + s;
                     }
@@ -191,7 +183,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
         @Override
         protected void onPostExecute(ArrayList<Hus> hus) {
-            System.out.println("Kommer hit!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             allHus = hus;
         }
     }
