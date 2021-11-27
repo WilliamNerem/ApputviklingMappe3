@@ -103,7 +103,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String jsonOutputString = jsonOutput.toString();
 
         getJSON task = new getJSON();
-        String[] params = {"http://studdata.cs.oslomet.no/~dbuser5/www/saveEdit.php?id=" + hus.get_ID(), "POST", jsonOutputString};
+        String[] params = {"http://studdata.cs.oslomet.no/~dbuser5/www/editHus.php?id=" + hus.get_ID(), "POST", jsonOutputString};
         task.execute(params);
     }
 
